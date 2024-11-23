@@ -492,3 +492,11 @@ color: var(--text-color);
 .close-btn:hover {
     color: var(--main-color);
 }
+
+.modal-footer button{
+    background: #724615;
+}
+
+.modal-footer button:hover{
+    background: var(--main-color);
+}
