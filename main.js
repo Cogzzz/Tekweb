@@ -37,11 +37,6 @@ searchInput.addEventListener("input", () => {
     });
 });
 
-logIn.addEventListener ("click", () => {
-    
-})
-
-
 // // Ambil elemen yang dibutuhkan
 // const cartIcon = document.getElementById('cart-icon');
 // const cartModal = document.getElementById('cart-modal');
