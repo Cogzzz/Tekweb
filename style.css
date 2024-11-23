@@ -220,6 +220,16 @@ header.shadow {
     margin: 0.5rem 0 1.4rem;
 }
 
+.about-text button{
+    padding:10px;
+    background: var(--main-color);
+    transition: 0.2s all linear;
+}
+
+.about-text button:hover {
+    background-color: #724615;
+}
+
 .heading {
     text-align: center;
     text-transform: uppercase;
