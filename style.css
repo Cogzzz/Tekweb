@@ -252,6 +252,12 @@ header.shadow {
     border-radius: 0.5rem
 }
 
+ 
+.products-container img:hover {
+    background:#ffdab0;
+}
+
+
 .products-container .box h3 {
     font-size: 1rem;
     font-weight: 600;
