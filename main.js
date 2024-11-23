@@ -16,25 +16,33 @@ searchIcon.addEventListener("click", () => {
     }
 });
 
+// Event listener untuk input pencarian
+searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase().trim();
+    const menuSection = document.getElementById("menu");
+    let foundItem = false; // Flag untuk mengecek apakah ada item yang cocok
+
+    // Periksa setiap item di menu
+    menuItems.forEach(item => {
+        const name = item.getAttribute("data-name").toLowerCase();
+        if (name.includes(query)) {
+            item.style.display = "block"; // Tampilkan item jika cocok
+            foundItem = true; // Tandai jika ditemukan item yang cocok
+        } else {
+            item.style.display = "none"; // Sembunyikan item jika tidak cocok
+        }
+    });
+
+    // Scroll ke menu hanya jika ada item yang cocok
+    if (foundItem && query !== "") {
+        menuSection.scrollIntoView({ behavior: "smooth" });
+    }
+});
+
 const header = document.querySelector("header");
 
 window.addEventListener("scroll", () => {
     header.classList.toggle("shadow", window.scrollY > 0)
-})
-
-// Event listener untuk input pencarian (jika tidak php)
-searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase().trim();
-
-    menuItems.forEach(item => {
-        const name = item.getAttribute("data-name").toLowerCase();
-        // Tampilkan atau sembunyikan elemen berdasarkan kecocokan
-        if (name.includes(query)) {
-            item.style.display = "block";
-        } else {
-            item.style.display = "none";
-        }
-    });
 });
 
 // // Ambil elemen yang dibutuhkan
