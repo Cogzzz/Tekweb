@@ -406,16 +406,16 @@ color: var(--text-color);
 }
 
 .cart-modal {
-    position: fixed;
-    top: 20%;
-    right: 20px;
-    width: 300px;
-    background: var(--bg-color);
-    box-shadow: var(--box-shadow);
-    border-radius: 8px;
-    padding: 20px;
+    position: absolute;
+    top: 15%;
+    right: 50px;
     display: none; /* Awalnya tersembunyi */
-    z-index: 1000;
+    background: var(--bg-color);
+    padding: 10px;
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
+    width: 300px;
+    border-radius: 8px;
 }
 
 .cart-modal.active {

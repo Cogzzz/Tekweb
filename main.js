@@ -45,6 +45,24 @@ window.addEventListener("scroll", () => {
     header.classList.toggle("shadow", window.scrollY > 0)
 });
 
+// Get the cart modal and cart icon
+const cartIcon = document.querySelector('.bx-cart-alt');
+const cartModal = document.getElementById('cart-modal');
+
+// Function to toggle the modal visibility
+cartIcon.addEventListener('click', () => {
+    cartModal.classList.toggle('active'); // Toggle the 'active' class to show/hide the modal
+});
+
+// Optionally, close the modal when clicking outside
+window.addEventListener('click', (e) => {
+    if (!cartModal.contains(e.target) && !cartIcon.contains(e.target)) {
+        cartModal.classList.remove('active'); // Close modal if clicking outside
+    }
+});
+
+
+
 // // Ambil elemen yang dibutuhkan
 // const cartIcon = document.getElementById('cart-icon');
 // const cartModal = document.getElementById('cart-modal');
