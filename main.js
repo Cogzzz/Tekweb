@@ -3,6 +3,8 @@ const searchIcon = document.getElementById("search-icon");
 const searchBox = document.querySelector(".search-box");
 const searchInput = document.querySelector(".search-box input");
 const menuItems = document.querySelectorAll(".products-container .box");
+const logIn = document.querySelectorAll("header-actions .login");
+const signIn = document.querySelectorAll("header-actions .signin");
 
 // Tambahkan event listener untuk icon search
 searchIcon.addEventListener("click", () => {
@@ -34,6 +36,10 @@ searchInput.addEventListener("input", () => {
         }
     });
 });
+
+logIn.addEventListener ("click", () => {
+    
+})
 
 
 // // Ambil elemen yang dibutuhkan
