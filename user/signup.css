@@ -79,7 +79,8 @@ body {
   }
   
   .btn {
-    background: var(--main-color);
+    background-position: var(--bg-color);
+    background-color:#8a6f4d;
     color: var(--bg-color);
     font-size: 0.9rem;
     cursor: pointer;
@@ -93,7 +94,9 @@ body {
   }
   
   .btn:hover {
-    background: var(--second-color);
+    background: var(--bg-color);
+    color: var(--main-color);
+    transition: 0.2s all linear;
   }
   
   p {

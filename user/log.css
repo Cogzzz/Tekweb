@@ -77,13 +77,13 @@ body {
   }
   
   .login-btn {
-    background: var(--main-color);
+    background-position: var(--bg-color);
+    background-color:#8a6f4d;
     color: var(--bg-color);
     font-size: 0.9rem;
     cursor: pointer;
     width: 100%;
     padding: 10px;
-    color: #fff;
     border: none;
     border-radius: 5px;
     font-weight: bold;
@@ -91,7 +91,9 @@ body {
   }
   
   .login-btn:hover {
-    background: var(--second-color);
+    background: var(--bg-color);
+    color: var(--main-color);
+    transition: 0.2s all linear;
   }
   
   p {
