@@ -14,44 +14,50 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div class="profile-container">
-        <h2>Informasi pribadi</h2>
-        <form>
-            <div class="form-group">
-                <label>Nama</label>
-                <input type="text" placeholder="Nama Lengkap" required>            
-            </div>
-            <div class="form-group">
-                <label>Tanggal lahir</label>
-                <input type="date" required>
-                <label>Nomor ponsel</label>
-                <div class="phone-input">
-                    <input type="text" placeholder="+62" class="prefix" required>
-                    <input type="text" placeholder="Nomor Ponsel" required>
+    <div class="container">
+        <div class="profile-box">
+            <h2>Informasi Pribadi</h2>
+            <form>
+                <div class="form-group mb-3">
+                    <label>Nama</label>
+                    <input type="text" class="form-control" placeholder="Nama Lengkap" required>            
                 </div>
+                <div class="form-group mb-3">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Nomor Ponsel</label>
+                    <div class="input-group">
+                        <span class="input-group-text">+62</span>
+                        <input type="text" class="form-control" placeholder="Nomor Ponsel" required>
+                    </div>
+                </div>
+                <h2>Alamat Pengiriman</h2>
+                <div class="form-group mb-3">
+                    <label>Alamat</label>
+                    <input type="text" class="form-control" placeholder="Alamat Lengkap" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Kecamatan</label>
+                    <input type="text" class="form-control" placeholder="Kecamatan" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Kota</label>
+                    <input type="text" class="form-control" placeholder="Kota" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Kabupaten</label>
+                    <input type="text" class="form-control" placeholder="Kabupaten" required>
+                </div>
+                <button type="submit" class="btn-save">Simpan</button>
+            </form>
+            <div class="account-section">
+                <button class="btn">Tambahkan Kata Sandi</button>
+                <button class="btn">Perbarui Alamat Email</button>
+                <button class="btn">Perbarui Nomor Telefon</button>
+                <button class="btn btn-delete">Hapus Akun</button>
             </div>
-            <h2>Alamat pengiriman</h2>
-            <div class="form-group">
-                <label>Alamat</label>
-                <input type="text" placeholder="Alamat lengkap" required>
-            </div>
-            <div class="form-group">
-                <label>Kecamatan</label>
-                <input type="text" placeholder="Kecamatan" required>
-            </div>
-            <div class="form-group">
-                <label>Kota</label>
-                <input type="text" placeholder="Kota" required>
-                <label>Kabupaten</label>
-                <input type="text" placeholder="Kabupaten" required>
-            </div>
-            <button type="submit" class="btn-save">Simpan</button>
-        </form>
-        <div class="account-section">
-            <button class="btn">Tambahkan kata sandi</button>
-            <button class="btn">Perbarui alamat email</button>
-            <button class="btn">Perbarui nomor telefon</button>
-            <button class="btn btn-delete">Hapus akun</button>
         </div>
     </div>
 </body>

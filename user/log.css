@@ -18,7 +18,7 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: url(../bg.png);
+    background: url(../asset/bg.png);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -89,7 +89,7 @@ header.shadow {
     color: var(--bg-color);
     border: none;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     transition: 0.3s ease;
@@ -200,7 +200,7 @@ header.shadow {
 .home{
     width: 100%;
     min-height: 100vh;
-    background: url(bg.png);
+    background: url(asset/bg.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -281,6 +281,25 @@ header.shadow {
     text-align: center;
     text-transform: uppercase;
 }
+
+/* Gaya tombol filter default */
+.filter-buttons .btn {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Gaya tombol filter saat di-hover */
+.filter-buttons .btn:hover,
+.filter-buttons .btn.active {
+    background-color: var(--second-color); /* Ganti dengan warna yang diinginkan */
+    color: white;
+}
+
+/* Gaya tombol filter yang sudah aktif (klik) */
+.filter-buttons .btn.active {
+    background-color:var(--main-color); /* Ganti dengan warna yang diinginkan */
+    color: white;
+}
+
 
 .products-container {
     display: grid;
@@ -613,5 +632,61 @@ color: var(--text-color);
     .header-actions {
         flex-wrap: wrap;
         gap: 0.5rem;
+    }
+}
+
+
+/* Dropdown Container */
+.dropdown {
+    position: relative;
+}
+
+/* Dropdown Menu */
+.dropdown .dropdown-menu {
+    display: none; /* Awalnya tersembunyi */
+    position: absolute;
+    top: 100%;
+    right: 0; /* Posisikan di kanan */
+    background: var(--bg-color); /* Tambahkan warna latar belakang default */
+    color: var(--text-color); /* Warna teks default */
+    border-radius: 8px;
+    padding: 10px 0;
+    width: 200px; /* Atur lebar dropdown */
+    box-shadow: var(--box-shadow); /* Tambahkan bayangan jika diperlukan */
+    z-index: 1000; /* Pastikan tampil di atas elemen lain */
+}
+
+/* Dropdown Item */
+.dropdown .dropdown-menu .dropdown-item {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    text-align: left;
+    background: transparent; /* Hindari warna latar */
+    color: var(--text-color); /* Warna teks default */
+    transition: background-color 0.3s, color 0.3s; /* Atur transisi */
+    display: block;
+}
+
+/* Hover Efek */
+.dropdown .dropdown-menu .dropdown-item:hover {
+    background: transparent; /* Hilangkan efek hover */
+    color: var(--text-color); /* Pastikan warna teks tetap */
+}
+
+/* Aktifkan Dropdown */
+.dropdown-menu.active {
+    display: block; /* Tampilkan menu dropdown */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

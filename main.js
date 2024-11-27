@@ -6,6 +6,22 @@ const menuItems = document.querySelectorAll(".products-container .box");
 const logIn = document.querySelectorAll("header-actions .login");
 const signIn = document.querySelectorAll("header-actions .signin");
 
+// Dropdown toggle functionality
+document.getElementById('dropdown-toggle').addEventListener('click', function () {
+    const dropdownMenu = document.getElementById('dropdown-menu');
+    dropdownMenu.classList.toggle('active');
+});
+
+// Close dropdown if clicked outside
+document.addEventListener('click', function (event) {
+    const dropdown = document.querySelector('.dropdown');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+
+    if (!dropdown.contains(event.target)) {
+        dropdownMenu.classList.remove('active');
+    }
+});
+
 // Tambahkan event listener untuk icon search
 searchIcon.addEventListener("click", () => {
     // Toggle tampilan search box
@@ -55,8 +71,55 @@ cartIcon.addEventListener('click', () => {
 });
 
 
+//FILTER
+
+// Fungsi untuk menyaring produk berdasarkan kategori
+function filterProducts(category = '') {
+    // Mendapatkan semua produk
+    const products = document.querySelectorAll('.products-container .box');
+
+    // Mendapatkan semua tombol filter
+    const buttons = document.querySelectorAll('.filter-buttons .btn');
+
+    // Menambahkan kelas 'active' pada tombol yang diklik dan menghapusnya dari tombol lainnya
+    buttons.forEach(button => {
+        if (button.textContent.toLowerCase() === category || category === '') {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+
+    // Menampilkan atau menyembunyikan produk berdasarkan kategori
+    if (category === '') {
+        products.forEach(product => {
+            product.style.display = 'block';
+        });
+    } else {
+        products.forEach(product => {
+            if (product.getAttribute('data-category') === category) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+}
+
+// CART 
 document.addEventListener('DOMContentLoaded', () => {
 let cart = [];
+
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function loadCartFromLocalStorage() {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+}
 
 function updateCartUI() {
     console.log('Updating cart UI...');
@@ -85,6 +148,7 @@ function updateCartUI() {
     });
 
     totalCartSpan.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+    saveCartToLocalStorage(); // Simpan ke localStorage setiap kali keranjang diperbarui
 }
 
 function addToCart(name, price, img) {
@@ -123,4 +187,44 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         addToCart(name, price, img);
     });
 });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadCartFromLocalStorage();
+    updateCartUI();
+});
+
+
+// Modal Product 
+
+// Tangkap semua elemen produk
+const productImages = document.querySelectorAll('.products-container .box img');
+
+// Tangkap elemen modal
+const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+const modalTitle = document.getElementById('productModalLabel');
+const modalImage = document.getElementById('modal-img');
+const modalPrice = document.getElementById('modal-price');
+const modalDescription = document.getElementById('modal-description');
+
+// Tambahkan event listener pada setiap gambar produk
+productImages.forEach((image) => {
+    image.addEventListener('click', (event) => {
+        // Ambil elemen box dari produk terkait
+        const productBox = event.target.closest('.box');
+
+        // Ambil data dari elemen produk
+        const productName = productBox.getAttribute('data-name');
+        const productPrice = productBox.querySelector('.content span').innerText;
+        const productImage = productBox.querySelector('img').getAttribute('src');
+
+        // Isi modal dengan data produk
+        modalTitle.textContent = productName;
+        modalImage.src = productImage;
+        modalPrice.textContent = productPrice;
+        modalDescription.textContent = `Discover the unique taste of ${productName}!`;
+
+        // Tampilkan modal
+        productModal.show();
+    });
 });
