@@ -54,92 +54,73 @@ cartIcon.addEventListener('click', () => {
     cartModal.classList.toggle('active'); // Toggle the 'active' class to show/hide the modal
 });
 
-// Optionally, close the modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (!cartModal.contains(e.target) && !cartIcon.contains(e.target)) {
-        cartModal.classList.remove('active'); // Close modal if clicking outside
-    }
-});
 
+document.addEventListener('DOMContentLoaded', () => {
+let cart = [];
 
+function updateCartUI() {
+    console.log('Updating cart UI...');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalCartSpan = document.getElementById('totalCart');
 
-// // Ambil elemen yang dibutuhkan
-// const cartIcon = document.getElementById('cart-icon');
-// const cartModal = document.getElementById('cart-modal');
-// const cartList = document.getElementById('cart-list');
-// const addToCartButtons = document.querySelectorAll('.add-to-cart'); // Tambahkan class ini ke tombol add
+    cartItemsContainer.innerHTML = '';
 
-// // Array untuk menyimpan item di cart
-// let cartItems = [];
-
-// // Toggle modal saat ikon cart diklik
-// cartIcon.addEventListener('click', () => {
-//     cartModal.classList.toggle('active');
-// });
-
-// // Fungsi untuk menambahkan item ke cart
-// function addToCart(itemName, itemPrice) {
-//     // Tambahkan item ke array
-//     cartItems.push({ name: itemName, price: itemPrice });
-//     renderCart();
-// }
-
-// // Fungsi untuk memperbarui daftar cart di modal
-// function renderCart() {
-//     cartList.innerHTML = ''; // Kosongkan daftar sebelumnya
-//     cartItems.forEach((item, index) => {
-//         const li = document.createElement('li');
-//         li.innerHTML = `
-//             <span>${item.name}</span>
-//             <span>$${item.price.toFixed(2)}</span>
-//             <button onclick="removeFromCart(${index})">Remove</button>
-//         `;
-//         cartList.appendChild(li);
-//     });
-// }
-
-// // Fungsi untuk menghapus item dari cart
-// function removeFromCart(index) {
-//     cartItems.splice(index, 1); // Hapus item dari array
-//     renderCart();
-// }
-
-// // Tambahkan event listener ke tombol add-to-cart
-// addToCartButtons.forEach((button) => {
-//     button.addEventListener('click', () => {
-//         const itemName = button.dataset.name; // Ambil nama item dari atribut data-name
-//         const itemPrice = parseFloat(button.dataset.price); // Ambil harga item dari atribut data-price
-//         addToCart(itemName, itemPrice);
-//     });
-// });
-
-
-// Ambil elemen modal
-const productModal = new bootstrap.Modal(document.getElementById('productModal'));
-const modalImg = document.getElementById('modal-img');
-const modalTitle = document.getElementById('productModalLabel');
-const modalDescription = document.getElementById('modal-description');
-const modalPrice = document.getElementById('modal-price');
-
-// Event listener untuk gambar produk
-const productImages = document.querySelectorAll('.products-container .box img');
-productImages.forEach((image) => {
-    image.addEventListener('click', () => {
-        const box = image.closest('.box');
-        const product = {
-            image: image.src,
-            title: box.dataset.name,
-            description: `This is the description of ${box.dataset.name}.`,
-            price: '25.000',
-        };
-
-        // Set data ke modal
-        modalImg.src = product.image;
-        modalTitle.textContent = product.title;
-        modalDescription.textContent = product.description;
-        modalPrice.textContent = `Rp.${product.price}`;
-
-        // Tampilkan modal
-        productModal.show();
+    cart.forEach((item, index) => {
+        const cartItem = document.createElement('li');
+        cartItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+        cartItem.innerHTML = `
+            <div class="d-flex align-items-center">
+                <img src="${item.img}" class="rounded me-3" alt="${item.name}" style="width: 50px; height: 50px;">
+                <div>
+                    <h6 class="mb-0">${item.name}</h6>
+                    <small>Price: ${item.price}</small>
+                </div>
+            </div>
+            <div>
+                <input type="number" class="form-control form-control-sm text-center" style="width: 60px;" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                <button class="btn btn-danger btn-sm mt-2" onclick="removeFromCart(${index})">Remove</button>
+            </div>
+        `;
+        cartItemsContainer.appendChild(cartItem);
     });
+
+    totalCartSpan.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+}
+
+function addToCart(name, price, img) {
+    console.log(`Adding to cart: ${name}, ${price}, ${img}`);
+    const existingItemIndex = cart.findIndex(item => item.name === name);
+
+    if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity++;
+    } else {
+        cart.push({ name, price, img, quantity: 1 });
+    }
+
+    console.log(cart);
+    updateCartUI();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+function updateQuantity(index, quantity) {
+    if (quantity <= 0) return;
+    cart[index].quantity = parseInt(quantity, 10);
+    updateCartUI();
+}
+
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+        console.log('Button clicked!');
+        const name = button.dataset.name;
+        const price = button.dataset.price;
+        const img = button.dataset.img;
+
+        console.log(`Name: ${name}, Price: ${price}, Img: ${img}`);
+        addToCart(name, price, img);
+    });
+});
 });
