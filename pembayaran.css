@@ -1,0 +1,223 @@
+body {
+    font-family: Poppins;
+    color: #3f3f3f;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+}
+
+#allproduct {
+    position: relative;
+    text-decoration: none;
+}
+
+#allproduct::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Lebar underline, sesuaikan sesuai kebutuhan */
+    bottom: 0;
+    left: 0;
+    background-color: yellow;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#allproduct:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.container-pembayaran {
+    display: flex;
+}
+.container-1 {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+.container-2 {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+#judul {
+    margin-top: 80px;
+    margin-left: 20px;
+    font-weight: 600;
+}
+
+.box-of-items {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.item {
+    display: flex;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.desc {
+    margin-left: 30px;
+}
+
+.desc .name-product,
+.desc .price,
+.desc .quantity {
+    margin-left: 0; /* Reset the left margin for each item */
+    font-weight: 500;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.img-box-item {
+    width: 2.5cm;
+    height: 2.5cm;
+}
+
+.quantity {
+    width: 100px;
+    height: 35px;
+    background-color: #edeefa;
+    padding: 15px;
+    display: inline-flex;
+    overflow: hidden;
+    align-items: center;
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-top: 5px;
+}
+
+.btnQty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+    background: 0 0;
+    color: #000;
+    cursor: pointer;
+    border: none;
+}
+
+.qtyInput {
+    width: 100%;
+    border: none;
+    font-size: 10px;
+    text-align: center;
+    color: #000;
+    background: 0 0;
+    flex: 1;
+    font-weight: 500;
+}
+
+#qtyInput:focus-visible {
+    outline: none;
+}
+
+#judul-opsi {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.border-box-kirim {
+    width: 550px;
+    height: 170px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #F3F3F3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-left: 20px;
+}
+
+.opsi-nama, .opsi-notelp, .opsi-alamat {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.opsi-judul {
+    margin-top: 20px;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.metode-bayar {
+    margin-top: 20px;
+}
+
+.cod {
+    font-weight: 700;
+}
+
+.btn-promo {
+    width: 477px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #F3F3F3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-top: 80px;
+    border: none;
+}
+
+#reset-promo {
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    margin-left: 110px;
+}
+
+#kode_promo {
+    width: 300px;
+}
+
+.title-vouchers {
+    font-weight: 800;
+}
+
+.vouchers {
+    font-weight: 500;
+    border: 1px solid #3f3f3f;
+    border-radius: 10px;
+    text-align: left;
+    width: 460px;
+    margin-top: 10px;
+}
+
+.ringkasan-belanja {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 477px;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #F3F3F3;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.ringkasan-title {
+    margin-top: 15px;
+    font-weight: 600;
+    width: 460px;
+    font-size: 20px;
+}
+
+.total-belanja {
+    margin-top: 25px;
+    font-weight: 600;
+    width: 460px;
+}
+
+.total-tagihan {
+    font-weight: 600;
+    font-size: 20px;
+}

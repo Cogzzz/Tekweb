@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    font-family: "Poppins", sans-serif;
+    margin:0 ;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    list-style: none;
+    text-decoration: none;
+}
+
+:root{
+    --main-color:#bc9967;
+    --second-color:#e1be6e; 
+    --text-color:#1b1b1b;
+    --bg-color:#fff;
+    --box-shadow : 2px 2px 10px 4px rgb(14 55 54 /15% )
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+}
+
+.profile-container {
+    max-width: auto;
+    margin: auto;
+    background-color: var(--bg-color);
+    padding: auto;
+    justify-content: center;
+    margin: 30px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.form-group label{
+    margin-top: 10px;
+}
+
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.phone-input {
+    display: flex;
+    gap: 5px;
+}
+
+.phone-input .prefix {
+    max-width: 70px;
+}
+
+.btn-save {
+    display: block;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    color: var(--text-color);
+    background-color: #736b64;
+}
+
+.account-section {
+    margin-top: 20px;
+}
+
+.account-section .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    background: var(--second-color);
+    color: #000;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.account-section .btn:hover {
+    background-color: var(--main-color);
+}
+
+.account-section .btn-delete {
+    background-color:var(--bg-color);
+    color: red;
+    font-weight: 500;
+    border-color: red;
+}
+
+.account-section .btn-delete :hover{
+    background: var(--second-color);
+}
