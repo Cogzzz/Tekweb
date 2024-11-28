@@ -228,3 +228,34 @@ productImages.forEach((image) => {
         productModal.show();
     });
 });
+
+//CUSTOMERS TESTIMONIALS
+document.getElementById('testimonialForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Ambil data dari form
+    const name = document.getElementById('name').value;
+    const message = document.getElementById('message').value;
+    const stars = document.getElementById('stars').value;
+
+    // Buat elemen baru untuk testimoni
+    const testimonialBox = document.createElement('div');
+    testimonialBox.className = 'box d-inline-block';
+    testimonialBox.style.minWidth = '300px';
+    testimonialBox.innerHTML = `
+        <div class="stars">${'<i class="bx bxs-star"></i>'.repeat(stars)}</div>
+        <p>${message}</p>
+        <h2>${name}</h2>
+        <img src="asset/rev2.png" alt="User Image">
+    `;
+
+    // Tambahkan testimoni ke container
+    document.querySelector('.customers-container').appendChild(testimonialBox);
+
+    // Reset form dan tutup modal
+    document.getElementById('testimonialForm').reset();
+    const modal = bootstrap.Modal.getInstance(document.getElementById('testimonialModal'));
+    modal.hide();
+    // customerElement.remove(); // Menghapus elemen dari DOM
+
+});

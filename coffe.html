@@ -93,9 +93,7 @@
     <section class="product" id="menu">
         <div class="heading">
             <h2>Our Popular Products</h2>
-        </div>
-            <!-- Filter Buttons -->
-           
+        </div>           
         <!-- Filter Buttons -->
         <div class="filter-buttons">
             <div class="btn-group" role="group" aria-label="Product Filters">
@@ -172,60 +170,66 @@
 
     <section class="customers" id="customers">
         <div class="heading"> 
-            <h2> Customers Testimonials</h2>
+            <h2>Customers Testimonials</h2>
         </div>
         
-        <div class="customers-container">
-            <div class="box"> 
+        <div class="customers-container d-flex overflow-auto" style="gap: 1rem; white-space: nowrap;">
+            <!-- Contoh Testimoni -->
+            <div class="box d-inline-block" style="min-width: 300px;"> 
                 <div class="stars">
                     <i class="bx bxs-star"></i>
                     <i class="bx bxs-star"></i>
                     <i class="bx bxs-star"></i>
                     <i class="bx bxs-star"></i>
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta mollitia itaque, labore at qui quisquam esse illum consectetur quos optio fugit dignissimos, odit eius ex maiores recusandae eveniet perferendis minus.</p>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
                 <h2>Steven Oentoro</h2>
                 <img src="asset/rev1.jpg" alt="">
             </div>
-
-            <div class="box"> 
-                <div class="stars">
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta mollitia itaque, labore at qui quisquam esse illum consectetur quos optio fugit dignissimos, odit eius ex maiores recusandae eveniet perferendis minus.</p>
-                <h2>Steven Oentoro</h2>
-                <img src="asset/rev2.jpg" alt="">
-            </div>
-
-            <div class="box"> 
-                <div class="stars">
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta mollitia itaque, labore at qui quisquam esse illum consectetur quos optio fugit dignissimos, odit eius ex maiores recusandae eveniet perferendis minus.</p>
-                <h2>Steven Oentoro</h2>
-                <img src="asset/rev3.jpg" alt="">
-            </div>  
-
-            <div class="box"> 
-                <div class="stars">
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta mollitia itaque, labore at qui quisquam esse illum consectetur quos optio fugit dignissimos, odit eius ex maiores recusandae eveniet perferendis minus.</p>
-                <h2>Steven Oentoro</h2>
-                <img src="asset/rev3.jpg" alt="">
-            </div>  
-            
+            <!-- Tambahkan lebih banyak box testimoni -->
+        </div>
+    
+        <!-- Tombol untuk memunculkan modal -->
+        <div class="text-center mt-4">
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#testimonialModal">Add Testimonial</button>
         </div>
     </section>
+    
+    <!-- Modal untuk Input Testimonial -->
+    <div class="modal fade" id="testimonialModal" tabindex="-1" aria-labelledby="testimonialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="testimonialModalLabel">Add Testimonial</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="testimonialForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stars" class="form-label">Rating</label>
+                            <select class="form-select" id="stars" required>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn1">Add</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     <section class="footer">
         <div class="footer-box">
@@ -264,7 +268,7 @@
         </div>
     </section>
 
-    <!-- Modal -->
+    <!-- Modal Product -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
