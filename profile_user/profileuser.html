@@ -1,37 +1,70 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil Pengguna</title>
   <link rel="stylesheet" href="profileuser.css">
+  <title>User Profile</title>
 </head>
 <body>
   <div class="profile-container">
-    <div class="profile-header">
-      <div class="avatar">
-        <img src="avatar.jpg" alt="Foto Profil">
+    <header class="profile-header">
+      <button class="back-button" onclick="window.location.href='../coffe.html'">←</button>
+      <div class="welcome-text">
+        <h1>Welcome</h1>
+        <p id="user-name"></p>
       </div>
-      <div class="user-info">
-        <h1 class="user-name">Nama Pengguna</h1>
-        <p class="user-tagline">Pecinta Kopi Sejati</p>
-      </div>
-    </div>
-    <div class="profile-details">
-      <h2>Tentang Saya</h2>
-      <p>Saya adalah seorang penggemar kopi yang selalu mencari cara baru untuk menikmati setiap tegukan kopi. Suka eksplorasi rasa dan budaya kopi.</p>
-      
-      <h2>Favorit Kopi</h2>
-      <ul>
-        <li>Cappuccino</li>
-        <li>Espresso</li>
-        <li>Latte</li>
-        <li>Americano</li>
-      </ul>
+    </header>
 
-      <h2>Aktivitas Terakhir</h2>
-      <p>Menikmati secangkir kopi di kafe lokal sambil bekerja di laptop.</p>
-    </div>
+    <main class="profile-content">
+      <h2>Informasi Pribadi</h2>
+      <form>
+        <div class="form-group">
+          <label for="name">Nama</label>
+          <input type="text" id="name" placeholder="Nama Lengkap" required>
+        </div>
+        <div class="form-group">
+          <label for="birth-date">Tanggal Lahir</label>
+          <input type="date" id="birth-date" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Nomor Ponsel</label>
+          <div class="input-group">
+            <span class="input-group-text">+62</span>
+            <input type="text" id="phone" placeholder="Nomor Ponsel" required>
+          </div>
+        </div>
+
+        <h2>Alamat Pengiriman</h2>
+        <div class="form-group">
+          <label for="address">Alamat</label>
+          <input type="text" id="address" placeholder="Alamat Lengkap" required>
+        </div>
+        <div class="form-group">
+          <label for="district">Kecamatan</label>
+          <input type="text" id="district" placeholder="Kecamatan" required>
+        </div>
+        <div class="form-group">
+          <label for="city">Kota</label>
+          <input type="text" id="city" placeholder="Kota" required>
+        </div>
+        <div class="form-group">
+          <label for="regency">Kabupaten</label>
+          <input type="text" id="regency" placeholder="Kabupaten" required>
+        </div>
+      </form>
+    </main>
+
+    <footer class="profile-footer">
+      <button class="logout-button">Logout</button>
+    </footer>
   </div>
+
+  <script>
+    // Mendapatkan nama depan dari nama lengkap
+    const fullName = "Steven Suryajaya Oentoro"; // Ganti sesuai nama pengguna
+    const firstName = fullName.split(" ")[0];
+    document.getElementById("user-name").textContent = firstName;
+  </script>
 </body>
 </html>
