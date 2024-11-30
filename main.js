@@ -107,13 +107,13 @@ function filterProducts(category = '') {
 }
 
 // CART 
-document.addEventListener('DOMContentLoaded', () => {
 let cart = [];
 
 function saveCartToLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+// Fungsi untuk memuat data keranjang dari localStorage
 function loadCartFromLocalStorage() {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
@@ -121,6 +121,7 @@ function loadCartFromLocalStorage() {
     }
 }
 
+// Fungsi untuk memperbarui UI keranjang
 function updateCartUI() {
     console.log('Updating cart UI...');
     const cartItemsContainer = document.getElementById('cart-items');
@@ -140,17 +141,24 @@ function updateCartUI() {
                 </div>
             </div>
             <div>
-                <input type="number" class="form-control form-control-sm text-center" style="width: 60px;" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                <button class="btn btn-sm btn-outline-secondary minus" onclick="updateQuantity(${index}, 'minus')">-</button>
+                <span class="quantity">${item.quantity}</span>
+                <button class="btn btn-sm btn-outline-secondary plus" onclick="updateQuantity(${index}, 'plus')">+</button>
                 <button class="btn btn-danger btn-sm mt-2" onclick="removeFromCart(${index})">Remove</button>
             </div>
         `;
         cartItemsContainer.appendChild(cartItem);
     });
-
     totalCartSpan.textContent = cart.reduce((total, item) => total + item.quantity, 0);
     saveCartToLocalStorage(); // Simpan ke localStorage setiap kali keranjang diperbarui
 }
 
+// Fungsi untuk menyimpan data keranjang ke localStorage
+function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Fungsi untuk menambahkan item ke keranjang
 function addToCart(name, price, img) {
     console.log(`Adding to cart: ${name}, ${price}, ${img}`);
     const existingItemIndex = cart.findIndex(item => item.name === name);
@@ -162,20 +170,31 @@ function addToCart(name, price, img) {
     }
 
     console.log(cart);
+    saveToHistory(existingItemIndex); // Panggil fungsi
     updateCartUI();
 }
 
+// Fungsi untuk menghapus item dari keranjang
 function removeFromCart(index) {
+    console.log('Removing item at index:', index); // Untuk debugging
     cart.splice(index, 1);
     updateCartUI();
 }
 
-function updateQuantity(index, quantity) {
-    if (quantity <= 0) return;
-    cart[index].quantity = parseInt(quantity, 10);
+// Fungsi untuk memperbarui jumlah item dalam keranjang
+function updateQuantity(index, action) {
+    const quantity = parseInt(cart[index].quantity, 10) || 0; // Pastikan nilai valid
+
+    if (action === 'plus') {
+        cart[index].quantity = quantity + 1;
+    } else if (action === 'minus') {
+        cart[index].quantity = Math.max(quantity - 1, 1); // Minimal 1
+    }
+
     updateCartUI();
 }
 
+// Event listener untuk menambahkan item ke keranjang saat tombol add-to-cart ditekan
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', () => {
         console.log('Button clicked!');
@@ -187,12 +206,13 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         addToCart(name, price, img);
     });
 });
-});
 
+// Memuat keranjang dan memperbarui UI setelah halaman dimuat
 document.addEventListener('DOMContentLoaded', () => {
     loadCartFromLocalStorage();
     updateCartUI();
 });
+
 
 
 // Modal Product 
@@ -259,3 +279,17 @@ document.getElementById('testimonialForm').addEventListener('submit', function (
     // customerElement.remove(); // Menghapus elemen dari DOM
 
 });
+
+
+// Fungsi untuk menyimpan riwayat transaksi ke localStorage tanpa duplikasi
+function saveToHistory(newTransaction) {
+    let history = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+
+    // Cek apakah transaksi sudah ada berdasarkan orderNumber
+    const isDuplicate = history.some(transaction => transaction.orderNumber === newTransaction.orderNumber);
+
+    if (!isDuplicate) {
+        history.push(newTransaction); // Tambahkan hanya jika tidak duplikat
+        localStorage.setItem('purchaseHistory', JSON.stringify(history));
+    }
+}

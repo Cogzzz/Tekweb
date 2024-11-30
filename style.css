@@ -411,18 +411,6 @@ header.shadow {
     transition: 0.2s all linear;
 }
 
-
-@media (max-width: 768px) {
-    .customers-container .box {
-        width: 240px; 
-    }
-
-    .customers-container {
-        gap: 0.5rem; 
-        padding: 0.5rem;
-    }
-}
-
 /* Gaya untuk tombol */
 .btn1 {
     padding: 10px 40px;
@@ -443,6 +431,9 @@ header.shadow {
 
 .footer {
     display: grid;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    background-color: #f0dfb7;
     grid-template-columns: repeat(auto-fit, minmax(240px, auto));
     gap: 1.5rem;
 }
@@ -502,84 +493,15 @@ color: var(--text-color);
     margin-bottom: 1rem;
 }
 
-
-.cart-modal {
-    position: absolute;
-    top: 15%;
-    right: 50px;
-    display: none; 
-    background: var(--bg-color);
-    padding: 20px;
-    box-shadow: var(--box-shadow);
-    border-radius: 8px;
-    width: 400px;
-    max-width: 100%;
-    border-radius: 8px;
-}
-
-.cart-modal.active {
-    display: block; 
-}
-
-.cart-modal ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.cart-modal ul li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    margin-bottom: 15px;
-}
-
-.cart-item-img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    margin-right: 15px;
-    border-radius: 8px;
-}
-
-.cart-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    text-align: left;
-    flex: 1;
-}
-
-.cart-item span {
-    font-weight: bold;
-    color: var(--main-color);
-    font-size: 14px;
-}
-
-.cart-item .price {
-    color: var(--main-color);
-    font-weight: 600;
-    margin-top: 5px;
-    font-size: 14px;
-}
-
-/* Tombol Checkout */
-.cart-modal .checkout-btn {
-    width: 100%;
-    padding: 10px;
+.text-center a {
     background-color: var(--main-color);
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 16px;
+    color: var(--bg-color);
 }
 
-.cart-modal .checkout-btn:hover {
-    background-color: var(--main-color-dark);
+.text-center a:hover {
+    background-color: var(--second-color);
+    color: var(--text-color);
 }
-
 
 /* Modal Background */
 .product-modal {
@@ -655,22 +577,6 @@ color: var(--text-color);
     background: var(--main-color);
 }
 
-@media (max-width: 768px) {
-    header {
-        padding: 15px 20px;
-    }
-
-    .navbar {
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .header-actions {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-}
-
 /* Dropdown Container */
 .dropdown {
     position: relative;
@@ -725,3 +631,4 @@ color: var(--text-color);
         transform: translateY(0);
     }
 }
+
