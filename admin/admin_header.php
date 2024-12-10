@@ -19,9 +19,9 @@ if(isset($alert_message)){
 
       <nav class="navbar">
          <a href="admin_page.php">Home</a>
-         <a href="admin_products.php">Products</a>
-         <a href="admin_orders.php">Orders</a>
-         <a href="admin_users.php">Users</a>
+         <a href="admin_product.php">Products</a>
+         <a href="admin_order.php">Orders</a>
+         <a href="admin_account.php">Account Manage</a>
       </nav>
 
       <div class="icons">
@@ -32,10 +32,13 @@ if(isset($alert_message)){
       <div class="account-box">
          <p>username : <span><?php echo $_SESSION['admin_username']; ?></span></p>
          <p>email : <span><?php echo $_SESSION['admin_email']; ?></span></p>
-         <a href="logout.php" class="delete-btn">logout</a>
+         <a href="../logout.php" class="delete-btn">logout</a>
          <!-- <div>new <a href="login.php">login</a> | <a href="register.php">register</a></div> -->
       </div>
 
    </div>
+
+   <!-- custom admin js file link  -->
+<script src="admin_config.js"></script>
 
 </header>

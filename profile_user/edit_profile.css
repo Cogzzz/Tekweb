@@ -73,3 +73,14 @@ body {
     background: #e4abb1;
     opacity: 0.9;
 }
+
+.message{
+    margin:10px 0;
+    width: 100%;
+    border-radius: 5px;
+    padding:10px;
+    text-align: center;
+    background-color: var(--bg-color);
+    color:var(--text-color);
+    font-size: 20px;
+ }

@@ -61,6 +61,14 @@ window.addEventListener("scroll", () => {
     header.classList.toggle("shadow", window.scrollY > 0)
 });
 
+window.onscroll = () => {
+    if(window.scrollY > 60){
+        document.querySelector('.header').classList.add('active');
+    }else{
+        document.querySelector('.header').classList.remove('active');
+    }
+}
+
 // Get the cart modal and cart icon
 const cartIcon = document.querySelector('.bx-cart-alt');
 const cartModal = document.getElementById('cart-modal');
@@ -106,112 +114,112 @@ function filterProducts(category = '') {
     }
 }
 
-// CART 
-let cart = [];
+// // CART 
+// let cart = [];
 
-function saveCartToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
+// function saveCartToLocalStorage() {
+//     localStorage.setItem('cart', JSON.stringify(cart));
+// }
 
-// Fungsi untuk memuat data keranjang dari localStorage
-function loadCartFromLocalStorage() {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-        cart = JSON.parse(savedCart);
-    }
-}
+// // Fungsi untuk memuat data keranjang dari localStorage
+// function loadCartFromLocalStorage() {
+//     const savedCart = localStorage.getItem('cart');
+//     if (savedCart) {
+//         cart = JSON.parse(savedCart);
+//     }
+// }
 
-// Fungsi untuk memperbarui UI keranjang
-function updateCartUI() {
-    console.log('Updating cart UI...');
-    const cartItemsContainer = document.getElementById('cart-items');
-    const totalCartSpan = document.getElementById('totalCart');
+// // Fungsi untuk memperbarui UI keranjang
+// function updateCartUI() {
+//     console.log('Updating cart UI...');
+//     const cartItemsContainer = document.getElementById('cart-items');
+//     const totalCartSpan = document.getElementById('totalCart');
 
-    cartItemsContainer.innerHTML = '';
+//     cartItemsContainer.innerHTML = '';
 
-    cart.forEach((item, index) => {
-        const cartItem = document.createElement('li');
-        cartItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-        cartItem.innerHTML = `
-            <div class="d-flex align-items-center">
-                <img src="${item.img}" class="rounded me-3" alt="${item.name}" style="width: 50px; height: 50px;">
-                <div>
-                    <h6 class="mb-0">${item.name}</h6>
-                    <small>Price: ${item.price}</small>
-                </div>
-            </div>
-            <div>
-                <button class="btn btn-sm btn-outline-secondary minus" onclick="updateQuantity(${index}, 'minus')">-</button>
-                <span class="quantity">${item.quantity}</span>
-                <button class="btn btn-sm btn-outline-secondary plus" onclick="updateQuantity(${index}, 'plus')">+</button>
-                <button class="btn btn-danger btn-sm mt-2" onclick="removeFromCart(${index})">Remove</button>
-            </div>
-        `;
-        cartItemsContainer.appendChild(cartItem);
-    });
-    totalCartSpan.textContent = cart.reduce((total, item) => total + item.quantity, 0);
-    saveCartToLocalStorage(); // Simpan ke localStorage setiap kali keranjang diperbarui
-}
+//     cart.forEach((item, index) => {
+//         const cartItem = document.createElement('li');
+//         cartItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+//         cartItem.innerHTML = `
+//             <div class="d-flex align-items-center">
+//                 <img src="${item.img}" class="rounded me-3" alt="${item.name}" style="width: 50px; height: 50px;">
+//                 <div>
+//                     <h6 class="mb-0">${item.name}</h6>
+//                     <small>Price: ${item.price}</small>
+//                 </div>
+//             </div>
+//             <div>
+//                 <button class="btn btn-sm btn-outline-secondary minus" onclick="updateQuantity(${index}, 'minus')">-</button>
+//                 <span class="quantity">${item.quantity}</span>
+//                 <button class="btn btn-sm btn-outline-secondary plus" onclick="updateQuantity(${index}, 'plus')">+</button>
+//                 <button class="btn btn-danger btn-sm mt-2" onclick="removeFromCart(${index})">Remove</button>
+//             </div>
+//         `;
+//         cartItemsContainer.appendChild(cartItem);
+//     });
+//     // totalCartSpan.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+//     // saveCartToLocalStorage(); // Simpan ke localStorage setiap kali keranjang diperbarui
+// }
 
-// Fungsi untuk menyimpan data keranjang ke localStorage
-function saveCartToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-}
+// // Fungsi untuk menyimpan data keranjang ke localStorage
+// function saveCartToLocalStorage() {
+//     localStorage.setItem('cart', JSON.stringify(cart));
+// }
 
-// Fungsi untuk menambahkan item ke keranjang
-function addToCart(name, price, img) {
-    console.log(`Adding to cart: ${name}, ${price}, ${img}`);
-    const existingItemIndex = cart.findIndex(item => item.name === name);
+// // Fungsi untuk menambahkan item ke keranjang
+// function addToCart(name, price, img) {
+//     console.log(`Adding to cart: ${name}, ${price}, ${img}`);
+//     const existingItemIndex = cart.findIndex(item => item.name === name);
 
-    if (existingItemIndex !== -1) {
-        cart[existingItemIndex].quantity++;
-    } else {
-        cart.push({ name, price, img, quantity: 1 });
-    }
+//     if (existingItemIndex !== -1) {
+//         cart[existingItemIndex].quantity++;
+//     } else {
+//         cart.push({ name, price, img, quantity: 1 });
+//     }
 
-    console.log(cart);
-    saveToHistory(existingItemIndex); // Panggil fungsi
-    updateCartUI();
-}
+//     console.log(cart);
+//     saveToHistory(existingItemIndex); // Panggil fungsi
+//     updateCartUI();
+// }
 
-// Fungsi untuk menghapus item dari keranjang
-function removeFromCart(index) {
-    console.log('Removing item at index:', index); // Untuk debugging
-    cart.splice(index, 1);
-    updateCartUI();
-}
+// // Fungsi untuk menghapus item dari keranjang
+// function removeFromCart(index) {
+//     console.log('Removing item at index:', index); // Untuk debugging
+//     cart.splice(index, 1);
+//     updateCartUI();
+// }
 
-// Fungsi untuk memperbarui jumlah item dalam keranjang
-function updateQuantity(index, action) {
-    const quantity = parseInt(cart[index].quantity, 10) || 0; // Pastikan nilai valid
+// // Fungsi untuk memperbarui jumlah item dalam keranjang
+// function updateQuantity(index, action) {
+//     const quantity = parseInt(cart[index].quantity, 10) || 0; // Pastikan nilai valid
 
-    if (action === 'plus') {
-        cart[index].quantity = quantity + 1;
-    } else if (action === 'minus') {
-        cart[index].quantity = Math.max(quantity - 1, 1); // Minimal 1
-    }
+//     if (action === 'plus') {
+//         cart[index].quantity = quantity + 1;
+//     } else if (action === 'minus') {
+//         cart[index].quantity = Math.max(quantity - 1, 1); // Minimal 1
+//     }
 
-    updateCartUI();
-}
+//     updateCartUI();
+// }
 
-// Event listener untuk menambahkan item ke keranjang saat tombol add-to-cart ditekan
-document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', () => {
-        console.log('Button clicked!');
-        const name = button.dataset.name;
-        const price = button.dataset.price;
-        const img = button.dataset.img;
+// // Event listener untuk menambahkan item ke keranjang saat tombol add-to-cart ditekan
+// // document.querySelectorAll('.add-to-cart').forEach(button => {
+// //     button.addEventListener('click', () => {
+// //         console.log('Button clicked!');
+// //         const name = button.dataset.name;
+// //         const price = button.dataset.price;
+// //         const img = button.dataset.img;
 
-        console.log(`Name: ${name}, Price: ${price}, Img: ${img}`);
-        addToCart(name, price, img);
-    });
-});
+// //         console.log(`Name: ${name}, Price: ${price}, Img: ${img}`);
+// //         addToCart(name, price, img);
+// //     });
+// // });
 
-// Memuat keranjang dan memperbarui UI setelah halaman dimuat
-document.addEventListener('DOMContentLoaded', () => {
-    loadCartFromLocalStorage();
-    updateCartUI();
-});
+// // Memuat keranjang dan memperbarui UI setelah halaman dimuat
+// document.addEventListener('DOMContentLoaded', () => {
+//     loadCartFromLocalStorage();
+//     updateCartUI();
+// });
 
 
 

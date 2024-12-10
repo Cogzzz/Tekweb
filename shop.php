@@ -1,25 +1,37 @@
 <?php
-
 include 'config.php';
 
 session_start();
 
-$user_id = $_SESSION['user_id'] ?? null;
+$user_id = $_SESSION['user_id'];
 
-// Ambil username dari database jika user_id ada
-$username = null;
-if ($user_id) {
-    $query = "SELECT * FROM users WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $user_id); // Menggunakan prepared statement untuk keamanan
-    $stmt->execute();
-    $result = $stmt->get_result();
+if (!isset($user_id)) {
+    header('location:user/login.php');
+}
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+
+
+if (isset($_POST['add_to_cart'])) {
+
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    $product_image = $_POST['product_image'];
+    $product_quantity = $_POST['product_quantity'];
+
+    $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
+
+    if (mysqli_num_rows($check_cart_numbers) > 0) {
+        // Jika produk sudah ada, update quantity
+        $cart_item = mysqli_fetch_assoc($check_cart_numbers);
+        $new_quantity = $cart_item['quantity'] + $product_quantity;
+        mysqli_query($conn, "UPDATE `cart` SET quantity = '$new_quantity' WHERE name = '$product_name' AND user_id = '$user_id'") or die('query failed');
+        $alert_message[] = 'Product quantity updated in cart!';
     } else {
-        die("query failed");
+        // Jika produk belum ada, tambahkan produk ke keranjang
+        mysqli_query($conn, "INSERT INTO `cart`(user_id, name, price, quantity, image_url) VALUES('$user_id', '$product_name', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
+        $alert_message[] = 'Product added to cart!';
     }
+
 }
 ?>
 
@@ -38,44 +50,36 @@ if ($user_id) {
     <link rel="stylesheet" href="style.css">
     <!-- Tambahkan Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
 
 <body>
     <?php
-    // if (isset($alert_message)) {
-    //     foreach ($alert_message as $message) {
-    //         echo '
-    //   <div class="message">
-    //      <span>' . $message . '</span>
-    //      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-    //   </div>
-    //   ';
-    //     }
-    // }
+    if (isset($alert_message)) {
+        foreach ($alert_message as $message) {
+            echo '
+          <div class="message">
+             <span>' . $message . '</span>
+             <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
+          </div>
+          ';
+        }
+    }
     ?>
-    <div class="header-1">
-        <?php if (!$user_id): ?>
-            <!-- Tampilkan tombol login dan register jika belum login -->
-            <a id="login" href="user/login.php">Login</a>
-            <a id="register" href="user/signup.php">Register</a>
-        <?php else: ?>
-            <!-- Tampilkan informasi user jika sudah login -->
-            <span>Welcome, <?php echo $user['username'] ?></span>
-            <a id="logout" href="logout.php">Logout</a>
-        <?php endif; ?>
-    </div>
+    <!--HEADER START-->
     <header>
         <a href="#" class="logo">
             <img src="asset/logo.png" alt="">
         </a>
         <i class="bx bx-menu" id="menu-icon"></i>
         <ul class="navbar">
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#menu">Menu</a></li>
+            <li><a href="homepage.php">Home</a></li>
+            <li><a href="homepage.php#about">About Us</a></li>
+            <li><a href="homepage.php#menu">Menu</a></li>
             <li><a href="shop.php">Shop Now</a></li>
-            <li><a href="#customers">Customers</a></li>
+            <li><a href="homepage.php#customers">Customers</a></li>
             <li><a href="cek_order/orders.php">My Order</a></li>
         </ul>
         <div class="header-actions">
@@ -94,6 +98,7 @@ if ($user_id) {
                     <div class="dropdown-menu" id="dropdown-menu">
                         <a href="profile_user/profileuser.php" class="dropdown-item">Profile User</a>
                         <!-- <a href="history/history.html" class="dropdown-item">History Pembelian</a> -->
+                        <!-- <a href="profile_user/profile.html" class="dropdown-item">Edit Profil</a> -->
                     </div>
                 </div>
             </div>
@@ -113,57 +118,29 @@ if ($user_id) {
                                     while ($cart_item = mysqli_fetch_assoc($select_cart_items)) {
                                         echo '
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>' . htmlspecialchars($cart_item['name'], ENT_QUOTES, 'UTF-8') . '</span>
+                                        <span>' . $cart_item['name'] . '</span>
                                         <span>' . $cart_item['quantity'] . ' x IDR ' . $cart_item['price'] . '</span>
                                         </li>';
                                     }
                                 } else {
+                                    // kenapa ga pakai p atau h aja?
                                     echo '<li class="list-group-item text-center">Your cart is empty!</li>';
                                 }
                                 ?>
                             </ul>
                             <div class="text-center">
-                                <a href="keranjang/cart.php" class="btn btn-primary w-100 mb-2">Checkout</a>
+                                <a href="keranjang/cart.php" class="btn w-100 mb-2" <?php echo (mysqli_num_rows($select_cart_items) > 0) ? '' : 'disabled'; ?>>Checkout</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="search-box">
-                <input type="search" id="" placeholder="What Coffe Do You Want ?">
-            </div>
         </div>
     </header>
+    <!--HEADER END-->
 
-    <section class="home" id="home">
-        <div class="home-text">
-            <h1>Start your day <br> With Coffee</h1>
-            <p> Nikmati hari Anda dengan secangkir kopi terbaik yang kami tawarkan. Dari biji kopi pilihan hingga
-                racikan penuh cinta, temukan kenikmatan sempurna di setiap tegukan. Jadikan setiap pagi lebih
-                bersemangat bersama kami!</p>
-            <a href="shop.php" class="btn"> Shop Now</a>
-        </div>
-        <div class="home-img">
-            <img src="asset/main.png" alt="">
-        </div>
-    </section>
-    <section class="about" id="about">
-        <div class="about-img">
-            <img src="asset/about.jpg" alt="About Image">
-        </div>
-        <div class="about-text">
-            <h2>Our History</h2>
-            <p>Kami memulai perjalanan kami dengan visi untuk menghadirkan kopi berkualitas terbaik kepada setiap
-                pecinta kopi. Berawal dari kecintaan pada rasa dan aroma kopi, kami tumbuh menjadi sebuah komunitas yang
-                menjunjung tinggi nilai tradisi dan inovasi.</p>
-            <p>Setiap biji kopi yang kami pilih bercerita tentang perjalanan panjang dari petani lokal hingga menjadi
-                secangkir kopi istimewa. Kami bangga mendukung petani kopi lokal, menjaga keberlanjutan, dan menyajikan
-                kopi dengan cinta dan keahlian.</p>
-            <p>Bergabunglah dengan kami untuk menjelajahi dunia kopi yang penuh dengan cerita, rasa, dan pengalaman tak
-                terlupakan.</p>
-            <a href="history_coffee/historycoffe.html" class="btn"> Learn More</a>
-        </div>
-    </section>
+
+    <!-- CONTENT START -->
 
     <!-- MENAMPILKAN PRODUK -->
     <section class="product" id="menu">
@@ -186,9 +163,18 @@ if ($user_id) {
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                     ?>
-                    <form action="" class="box">
+                    <form action="" method="post" class="box">
                         <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
+                        <div class="price">IDR <?php echo $fetch_products['price']; ?>,00</div>
+                        <!-- untuk post data pada saat tombol add to cart di klik -->
+                        <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
+                        <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
+                        <input type="hidden" name="product_image" value="<?php echo $fetch_products['image_url']; ?>">
+                        <div class="product-action">
+                            <input type="number" min="1" name="product_quantity" value="1" class="qty">
+                            <input type="submit" value="Add to cart" name="add_to_cart" class="btn">
+                        </div>
                     </form>
                     <?php
                 }
@@ -198,74 +184,13 @@ if ($user_id) {
             ?>
 
         </div>
-
-
     </section>
 
-    <section class="customers" id="customers">
-        <div class="heading">
-            <h2>Customers Testimonials</h2>
-        </div>
-
-        <div class="customers-container d-flex overflow-auto" style="gap: 1rem; white-space: nowrap;">
-            <!-- Contoh Testimoni -->
-            <div class="box d-inline-block" style="min-width: 300px;">
-                <div class="stars">
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                    <i class="bx bxs-star"></i>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-                <h2>Steven Oentoro</h2>
-                <img src="asset/rev1.jpg" alt="">
-            </div>
-            <!-- Tambahkan lebih banyak box testimoni -->
-        </div>
-
-        <!-- Tombol untuk memunculkan modal -->
-        <div class="text-center mt-4">
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#testimonialModal">Add Testimonial</button>
-        </div>
-    </section>
-
-    <!-- Modal untuk Input Testimonial -->
-    <div class="modal fade" id="testimonialModal" tabindex="-1" aria-labelledby="testimonialModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="testimonialModalLabel">Add Testimonial</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="testimonialForm">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="stars" class="form-label">Rating</label>
-                            <select class="form-select" id="stars" required>
-                                <option value="1">1 Star</option>
-                                <option value="2">2 Stars</option>
-                                <option value="3">3 Stars</option>
-                                <option value="4">4 Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn1">Add</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- CONTENT END -->
 
 
+
+    <!-- FOOTER -->
     <section class="footer">
         <div class="footer-box">
             <h2>Coffe Shoop</h2>
@@ -304,6 +229,7 @@ if ($user_id) {
             <span><i class='bx bxs-envelope'></i>coffe@gmail.com</span>
         </div>
     </section>
+    <!-- FOOTER END -->
 
     <!-- Modal Product -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">

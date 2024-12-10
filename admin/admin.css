@@ -7,6 +7,7 @@
    --black:#333;
    --white:#fff;
    --blue:#0096FF;
+   --green:#32CD32;
    --light-color:#666;
    --light-white:#ccc;
    --light-bg:#f5f5f5;
@@ -122,11 +123,11 @@ section{
 
 .white-btn,
 .btn{
-   background-color: var(--purple);
+   background-color: var(--green);
 }
 
 .option-btn{
-   background-color: var(--orange);
+   background-color: var(--blue);
 }
 
 .delete-btn{
@@ -271,7 +272,7 @@ section{
    margin-top: 1.5rem;
    padding:1.5rem;
    background-color: var(--light-bg);
-   color:var(--purple);
+   color:var(--orange);
    font-size: 2rem;
    border-radius: .5rem;
    border:var(--border);
@@ -491,6 +492,61 @@ section{
 .messages .box-container .box .delete-btn{
    margin-top: 0;
 }
+
+/* Tabel */
+.table {
+   width: 100%;
+   border-collapse: collapse;
+   margin: 20px 0;
+   font-size: 16px;
+   background-color: #fff;
+}
+
+.table th, .table td {
+   border: 1px solid #ddd;
+   padding: 12px;
+   text-align: center;
+}
+
+.table th {
+   background-color: #f4f4f4;
+   color: #333;
+}
+
+.table tbody tr:hover {
+   background-color: #f9f9f9;
+}
+
+/* Tombol */
+.btn {
+   padding: 8px 12px;
+   font-size: 14px;
+   text-align: center;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   color: #fff;
+}
+
+.btn-blue {
+   background-color: #007bff;
+   transition: background-color 0.3s ease;
+}
+
+.btn-blue:hover {
+   background-color: #0056b3;
+}
+
+.btn-red {
+   background-color: #dc3545;
+   transition: background-color 0.3s ease;
+}
+
+.btn-red:hover {
+   background-color: #a71d2a;
+}
+
+
 
 
 
