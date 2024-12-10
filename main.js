@@ -6,13 +6,13 @@ const menuItems = document.querySelectorAll(".products-container .box");
 const logIn = document.querySelectorAll("header-actions .login");
 const signIn = document.querySelectorAll("header-actions .signin");
 
-// Dropdown toggle functionality
+// Dropdown
 document.getElementById('dropdown-toggle').addEventListener('click', function () {
     const dropdownMenu = document.getElementById('dropdown-menu');
     dropdownMenu.classList.toggle('active');
 });
 
-// Close dropdown if clicked outside
+// Close dropdown
 document.addEventListener('click', function (event) {
     const dropdown = document.querySelector('.dropdown');
     const dropdownMenu = document.getElementById('dropdown-menu');
@@ -22,7 +22,7 @@ document.addEventListener('click', function (event) {
     }
 });
 
-// Tambahkan event listener untuk icon search
+// SEARCH
 searchIcon.addEventListener("click", () => {
     // Toggle tampilan search box
     if (searchBox.style.display === "none" || searchBox.style.display === "") {
@@ -32,7 +32,7 @@ searchIcon.addEventListener("click", () => {
     }
 });
 
-// Event listener untuk input pencarian
+// SEARCH INPUT
 searchInput.addEventListener("input", () => {
     const query = searchInput.value.toLowerCase().trim();
     const menuSection = document.getElementById("menu");
@@ -70,12 +70,13 @@ window.onscroll = () => {
 }
 
 // Get the cart modal and cart icon
+
 const cartIcon = document.querySelector('.bx-cart-alt');
 const cartModal = document.getElementById('cart-modal');
 
-// Function to toggle the modal visibility
+// Menampilkan modal cart
 cartIcon.addEventListener('click', () => {
-    cartModal.classList.toggle('active'); // Toggle the 'active' class to show/hide the modal
+    cartModal.classList.toggle('active'); 
 });
 
 
@@ -83,13 +84,9 @@ cartIcon.addEventListener('click', () => {
 
 // Fungsi untuk menyaring produk berdasarkan kategori
 function filterProducts(category = '') {
-    // Mendapatkan semua produk
     const products = document.querySelectorAll('.products-container .box');
-
-    // Mendapatkan semua tombol filter
     const buttons = document.querySelectorAll('.filter-buttons .btn');
 
-    // Menambahkan kelas 'active' pada tombol yang diklik dan menghapusnya dari tombol lainnya
     buttons.forEach(button => {
         if (button.textContent.toLowerCase() === category || category === '') {
             button.classList.add('active');
@@ -134,6 +131,19 @@ function filterProducts(category = '') {
 //     console.log('Updating cart UI...');
 //     const cartItemsContainer = document.getElementById('cart-items');
 //     const totalCartSpan = document.getElementById('totalCart');
+// memuat data keranjang dari localStorage
+function loadCartFromLocalStorage() {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+}
+
+// memperbarui UI keranjang
+function updateCartUI() {
+    console.log('Updating cart UI...');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const totalCartSpan = document.getElementById('totalCart');
 
 //     cartItemsContainer.innerHTML = '';
 
@@ -198,6 +208,27 @@ function filterProducts(category = '') {
 //     } else if (action === 'minus') {
 //         cart[index].quantity = Math.max(quantity - 1, 1); // Minimal 1
 //     }
+    console.log(cart);
+    saveToHistory(existingItemIndex);
+    updateCartUI();
+}
+
+// Fungsi untuk menghapus item dari keranjang
+function removeFromCart(index) {
+    console.log('Removing item at index:', index); 
+    cart.splice(index, 1);
+    updateCartUI();
+}
+
+// Fungsi untuk memperbarui jumlah item dalam keranjang
+// function updateQuantity(index, action) {
+//     const quantity = parseInt(cart[index].quantity, 10) || 0;
+
+//     if (action === 'plus') {
+//         cart[index].quantity = quantity + 1;
+//     } else if (action === 'minus') {
+//         cart[index].quantity = Math.max(quantity - 1, 1);
+//     }
 
 //     updateCartUI();
 // }
@@ -224,11 +255,7 @@ function filterProducts(category = '') {
 
 
 // Modal Product 
-
-// Tangkap semua elemen produk
 const productImages = document.querySelectorAll('.products-container .box img');
-
-// Tangkap elemen modal
 const productModal = new bootstrap.Modal(document.getElementById('productModal'));
 const modalTitle = document.getElementById('productModalLabel');
 const modalImage = document.getElementById('modal-img');
@@ -238,21 +265,16 @@ const modalDescription = document.getElementById('modal-description');
 // Tambahkan event listener pada setiap gambar produk
 productImages.forEach((image) => {
     image.addEventListener('click', (event) => {
-        // Ambil elemen box dari produk terkait
         const productBox = event.target.closest('.box');
-
-        // Ambil data dari elemen produk
         const productName = productBox.getAttribute('data-name');
         const productPrice = productBox.querySelector('.content span').innerText;
         const productImage = productBox.querySelector('img').getAttribute('src');
 
-        // Isi modal dengan data produk
         modalTitle.textContent = productName;
         modalImage.src = productImage;
         modalPrice.textContent = productPrice;
         modalDescription.textContent = `Discover the unique taste of ${productName}!`;
 
-        // Tampilkan modal
         productModal.show();
     });
 });
@@ -266,7 +288,6 @@ document.getElementById('testimonialForm').addEventListener('submit', function (
     const message = document.getElementById('message').value;
     const stars = document.getElementById('stars').value;
 
-    // Buat elemen baru untuk testimoni
     const testimonialBox = document.createElement('div');
     testimonialBox.className = 'box d-inline-block';
     testimonialBox.style.minWidth = '300px';
@@ -285,7 +306,6 @@ document.getElementById('testimonialForm').addEventListener('submit', function (
     const modal = bootstrap.Modal.getInstance(document.getElementById('testimonialModal'));
     modal.hide();
     // customerElement.remove(); // Menghapus elemen dari DOM
-
 });
 
 
