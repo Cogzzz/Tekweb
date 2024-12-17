@@ -26,9 +26,9 @@ if (!isset($user_id)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <!--Boxicon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="orders.css">
     <link rel="stylesheet" href="../style.css">
 
 </head>
@@ -38,7 +38,7 @@ if (!isset($user_id)) {
     <!--HEADER START-->
     <header>
         <a href="#" class="logo">
-            <img src="asset/logo.png" alt="">
+            <img src="../asset/logo.png" alt="">
         </a>
         <i class="bx bx-menu" id="menu-icon"></i>
         <ul class="navbar">
@@ -106,11 +106,6 @@ if (!isset($user_id)) {
     </header>
     <!--HEADER END-->
 
-
-    <div class="heading">
-        <p> <a href="../homepage.php">home</a> / my order </p>
-    </div>
-
     <section class="placed-orders">
         <h3 class="title">Placed Orders</h3>
         <div class="table-responsive">
@@ -162,19 +157,5 @@ if (!isset($user_id)) {
             </table>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
-    <!-- custom js file link  -->
-    <!-- <script src="js/script.js"></script> -->
-
 </body>
-
 </html>

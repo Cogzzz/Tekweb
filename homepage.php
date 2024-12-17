@@ -42,29 +42,6 @@ if ($user_id) {
 </head>
 
 <body>
-    <?php
-    // if (isset($alert_message)) {
-    //     foreach ($alert_message as $message) {
-    //         echo '
-    //   <div class="message">
-    //      <span>' . $message . '</span>
-    //      <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
-    //   </div>
-    //   ';
-    //     }
-    // }
-    ?>
-    <div class="header-1">
-        <?php if (!$user_id): ?>
-            <!-- Tampilkan tombol login dan register jika belum login -->
-            <a id="login" href="user/login.php">Login</a>
-            <a id="register" href="user/signup.php">Register</a>
-        <?php else: ?>
-            <!-- Tampilkan informasi user jika sudah login -->
-            <span>Welcome, <?php echo $user['username'] ?></span>
-            <a id="logout" href="logout.php">Logout</a>
-        <?php endif; ?>
-    </div>
     <header>
         <a href="#" class="logo">
             <img src="asset/logo.png" alt="">
@@ -92,8 +69,9 @@ if ($user_id) {
                 <div class="dropdown">
                     <i class="bx bx-user" id="dropdown-toggle"></i>
                     <div class="dropdown-menu" id="dropdown-menu">
+                        <li class="dropdown-item" id="welcome">Welcome, <?php echo htmlspecialchars($user['username']); ?></li>
                         <a href="profile_user/profileuser.php" class="dropdown-item">Profile User</a>
-                        <!-- <a href="history/history.html" class="dropdown-item">History Pembelian</a> -->
+                        <li><a href="logout.php" class="dropdown-item" id="logout">Logout</a></li>
                     </div>
                 </div>
             </div>
@@ -114,7 +92,7 @@ if ($user_id) {
                                         echo '
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <span>' . htmlspecialchars($cart_item['name'], ENT_QUOTES, 'UTF-8') . '</span>
-                                        <span>' . $cart_item['quantity'] . ' x IDR ' . $cart_item['price'] . '</span>
+                                        <span>' . $cart['quantity'] . ' x IDR ' . $cart_item['price'] . '</span>
                                         </li>';
                                     }
                                 } else {
@@ -130,7 +108,7 @@ if ($user_id) {
                 </div>
             </div>
             <div class="search-box">
-                <input type="search" id="" placeholder="What Coffe Do You Want ?">
+                <input type="search" id="" placeholder="What Coffee Do You Want ?">
             </div>
         </div>
     </header>
@@ -173,8 +151,7 @@ if ($user_id) {
         <!-- Filter Buttons -->
         <div class="filter-buttons">
             <div class="btn-group" role="group" aria-label="Product Filters">
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="filterProducts('Strong')">Strong</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Strong')">Strong</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Mild')">Mild</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Light')">Light</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts()">All</button>
@@ -186,20 +163,24 @@ if ($user_id) {
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                     ?>
-                    <form action="" class="box">
-                        <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
+                    <form action="" class="box" data-category="<?php echo htmlspecialchars($fetch_products['category'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <img class="image" 
+                            src="admasset/<?php echo $fetch_products['image_url']; ?>" 
+                            alt="" 
+                            data-name="<?php echo htmlspecialchars($fetch_products['name'], ENT_QUOTES, 'UTF-8'); ?>" 
+                            data-description="<?php echo htmlspecialchars($fetch_products['description'], ENT_QUOTES, 'UTF-8'); ?>" 
+                            data-price="<?php echo $fetch_products['price']; ?>" 
+                            onclick="showProductModal(this)">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
                     </form>
+
                     <?php
                 }
             } else {
                 echo '<p class="empty">no products added yet!</p>';
             }
             ?>
-
         </div>
-
-
     </section>
 
     <section class="customers" id="customers">
@@ -207,7 +188,8 @@ if ($user_id) {
             <h2>Customers Testimonials</h2>
         </div>
 
-        <div class="customers-container d-flex overflow-auto" style="gap: 1rem; white-space: nowrap;">
+        <div class="customers-container d-flex overflow ```html
+-auto" style="gap: 1rem; white-space: nowrap;">
             <!-- Contoh Testimoni -->
             <div class="box d-inline-block" style="min-width: 300px;">
                 <div class="stars">
@@ -265,7 +247,6 @@ if ($user_id) {
         </div>
     </div>
 
-
     <section class="footer">
         <div class="footer-box">
             <h2>Coffe Shoop</h2>
@@ -299,7 +280,7 @@ if ($user_id) {
             <h2>Contact</h2>
             <span> <i class='bx bxs-map'></i> Jl.Sekawan Anggrek 100, Sidoarjo</span>
             <hr>
-            <span><i class='bx bxs-phone-call'></i>+62 009898791123</span>
+            <span><i class='bx bxs-phone-call'></i>+62 009898791123 </span>
             <hr>
             <span><i class='bx bxs-envelope'></i>coffe@gmail.com</span>
         </div>
@@ -324,6 +305,26 @@ if ($user_id) {
             </div>
         </div>
     </div>
+
+    <script>
+        function showProductModal(element) {
+            // Ambil data dari atribut data-* pada gambar
+            const name = element.getAttribute('data-name');
+            const description = `Discover the unique taste of ${name}!`; // Mengubah deskripsi sesuai permintaan
+            const price = element.getAttribute('data-price');
+            const imageUrl = element.src; // Ambil URL gambar
+
+            // Isi modal dengan data produk
+            document.getElementById('productModalLabel').innerText = name;
+            document.getElementById('modal-description').innerText = description; // Menggunakan deskripsi baru
+            document.getElementById('modal-price').innerText = 'Rp.' + price;
+            document.getElementById('modal-img').src = imageUrl;
+
+            // Tampilkan modal
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+        }
+    </script>
     <script src="main.js"></script>
 </body>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 06:38 PM
+-- Generation Time: Dec 17, 2024 at 02:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,6 +36,13 @@ CREATE TABLE `cart` (
   `image_url` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `user_id`, `name`, `price`, `quantity`, `image_url`) VALUES
+(23, 24, 'Latte', 25000, 1, 'p2.png');
+
 -- --------------------------------------------------------
 
 --
@@ -61,7 +68,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `name`, `number`, `email`, `payment_method`, `address`, `total_products`, `total_price`, `placed_on`, `payment_status`) VALUES
-(6, 20, 'Fernando hose', '082133604927', 'strgrm@gmail.com', 'e-wallet', 'fm b/25, surayaba, wonocolo, kota surabaya - 14045', 2, 50000, '2024-12-10 17:07:53', 'completed');
+(6, 20, 'Fernando hose', '082133604927', 'strgrm@gmail.com', 'e-wallet', 'fm b/25, surayaba, wonocolo, kota surabaya - 14045', 2, 50000, '2024-12-10 10:07:53', 'completed');
 
 -- --------------------------------------------------------
 
@@ -75,20 +82,21 @@ CREATE TABLE `product` (
   `description` text NOT NULL,
   `price` decimal(10,0) NOT NULL,
   `stock` int(11) NOT NULL,
-  `image_url` varchar(255) NOT NULL
+  `image_url` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `stock`, `image_url`) VALUES
-(2, 'Americano', '', 25000, 0, 'p1.png'),
-(3, 'Latte', '', 25000, 0, 'p2.png'),
-(4, 'Picollo', '', 25000, 0, 'p4.png'),
-(6, 'Americano On The Rock', '', 30000, 0, 'p5.png'),
-(7, 'Strong Booster', '', 15000, 0, 'p3.png'),
-(8, 'Espresso', '', 25000, 0, 'p6.png');
+INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `stock`, `image_url`, `category`) VALUES
+(2, 'Americano', '', 25000, 0, 'p1.png', 'Strong'),
+(3, 'Latte', '', 25000, 0, 'p2.png', 'Mild'),
+(4, 'Picollo', '', 25000, 0, 'p4.png', 'Strong'),
+(6, 'Americano On The Rock', '', 30000, 0, 'p5.png', 'Strong'),
+(7, 'Strong Booster', '', 15000, 0, 'p3.png', 'Light'),
+(8, 'Espresso', '', 25000, 0, 'p6.png', 'Mild');
 
 -- --------------------------------------------------------
 
@@ -112,7 +120,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `nama`, `username`, `email`, `password`, `user_type`) VALUES
 (20, 'Fernando hose', 'stargrim', 'strgrm@gmail.com', 'e40314017c82175b9feadb17c042ef03', 'user'),
 (23, 'admin01', 'admin01', 'admin@petra.ac.id', '372c95307bc910fc2107cdbad1ea4cef', 'admin'),
-(24, 'steven oentoro', 'oen', 'oenhaha@gmail.com', 'a73b05440af63484f91fcd6add5e81ca', 'user');
+(24, 'steven oentoro', 'oen', 'oenhaha@gmail.com', 'a73b05440af63484f91fcd6add5e81ca', 'user'),
+(25, 'oentoro', 'oentoro', 'oen@gmail.com', 'a73b05440af63484f91fcd6add5e81ca', 'user');
 
 --
 -- Indexes for dumped tables
@@ -152,7 +161,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -170,7 +179,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
