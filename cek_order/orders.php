@@ -57,7 +57,7 @@ if (!isset($user_id)) {
                 ?>
                 <div class="cart">
                     <i class="bx bx-cart-alt" id="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal"></i>
-                    <span>(<?php echo $cart_rows_number; ?>)</span>
+                    <span><?php echo $cart_rows_number; ?></span>
                 </div>
                 <i class="bx bx-search" id="search-icon"></i>
                 <div class="dropdown">

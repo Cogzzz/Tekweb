@@ -6,21 +6,25 @@ const menuItems = document.querySelectorAll(".products-container .box");
 const logIn = document.querySelectorAll("header-actions .login");
 const signIn = document.querySelectorAll("header-actions .signin");
 
-// Dropdown
-document.getElementById('dropdown-toggle').addEventListener('click', function () {
-    const dropdownMenu = document.getElementById('dropdown-menu');
-    dropdownMenu.classList.toggle('active');
+
+//DROP DOWN USER
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdownToggle = document.getElementById("dropdown-toggle");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+
+    dropdownToggle.addEventListener("click", function (e) {
+        e.stopPropagation(); // Mencegah event bubbling ke elemen lain
+        dropdownMenu.classList.toggle("active");
+    });
+
+    // Menutup dropdown jika klik di luar menu
+    document.addEventListener("click", function (e) {
+        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.remove("active");
+        }
+    });
 });
 
-// Close dropdown
-document.addEventListener('click', function (event) {
-    const dropdown = document.querySelector('.dropdown');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-
-    if (!dropdown.contains(event.target)) {
-        dropdownMenu.classList.remove('active');
-    }
-});
 
 // SEARCH
 searchIcon.addEventListener("click", () => {

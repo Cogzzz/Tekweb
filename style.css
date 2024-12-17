@@ -661,34 +661,32 @@ header.shadow {
 
 /* Ikon pengguna */
 #dropdown-toggle {
-  font-size: 24px; /* Ukuran ikon */
-  cursor: pointer; /* Menunjukkan bahwa ikon dapat diklik */
-  color: var(--bg-color); /* Warna ikon */
-  transition: color 0.3s; /* Transisi warna */
+  font-size: 24px; 
+  cursor: pointer; 
+  color: var(--bg-color, #000); /* Default hitam */
+  transition: color 0.3s; 
 }
 
 /* Gaya untuk menu dropdown */
 .dropdown-menu {
-  display: none; /* Sembunyikan menu dropdown secara default */
-  position: absolute; /* Posisi absolut untuk menu dropdown */
-  background-color: var(--bg-color); /* Warna latar belakang */
-  border: 1px solid #ccc; /* Garis batas */
-  border-radius: 4px; /* Sudut melengkung */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bayangan */
-  z-index: 1000; /* Pastikan menu di atas elemen lain */
-  min-width: 200px; /* Lebar minimum menu */
-  margin-top: 10px; /* Jarak antara ikon dan menu */
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
 }
 
-/* Tampilkan menu dropdown saat ikon diklik */
-.dropdown.show .dropdown-menu {
-  display: block; /* Tampilkan menu dropdown */
+.dropdown-menu.active {
+  display: block;
 }
 
 /* Gaya untuk item dropdown */
 .dropdown-item {
   padding: 10px 15px; /* Padding untuk item */
-  color: var(--text-color); /* Warna teks */
+  color: var(--text-color, #333); /* Warna teks */
   text-decoration: none; /* Hapus garis bawah */
   display: block; /* Buat item menjadi blok */
   transition: background-color 0.3s; /* Transisi warna latar belakang */
@@ -696,9 +694,25 @@ header.shadow {
 
 /* Efek hover untuk item dropdown */
 .dropdown-item:hover {
-  background-color: var(--main-color); /* Warna latar belakang saat hover */
-  color: var(--bg-color); /* Warna teks saat hover */
+  background-color: var(--main-color, #f0f0f0); /* Warna latar belakang saat hover */
+  color: var(--bg-color, #000); /* Warna teks saat hover */
 }
+
+/* Gaya untuk tombol logout */
+.dropdown-item.logout {
+  color: #fff; /* Warna teks putih */
+  background-color: #e74c3c; /* Warna merah */
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* Efek hover tombol logout */
+.dropdown-item.logout:hover {
+  background-color: #c0392b; /* Warna merah lebih gelap saat hover */
+  color: #fff; /* Warna teks tetap putih */
+}
+
 
 /* Gaya untuk item selamat datang */
 #welcome {
