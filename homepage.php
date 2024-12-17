@@ -38,6 +38,8 @@ if ($user_id) {
     <link rel="stylesheet" href="style.css">
     <!-- Tambahkan Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 
@@ -163,23 +165,17 @@ if ($user_id) {
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                     ?>
-                    <form action="" class="box" data-category="<?php echo htmlspecialchars($fetch_products['category'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <img class="image" 
-                            src="admasset/<?php echo $fetch_products['image_url']; ?>" 
-                            alt="" 
-                            data-name="<?php echo htmlspecialchars($fetch_products['name'], ENT_QUOTES, 'UTF-8'); ?>" 
-                            data-description="<?php echo htmlspecialchars($fetch_products['description'], ENT_QUOTES, 'UTF-8'); ?>" 
-                            data-price="<?php echo $fetch_products['price']; ?>" 
-                            onclick="showProductModal(this)">
+                    <form action="" class="box">
+                        <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
                     </form>
-
                     <?php
                 }
             } else {
                 echo '<p class="empty">no products added yet!</p>';
             }
             ?>
+
         </div>
     </section>
 
@@ -327,5 +323,42 @@ if ($user_id) {
     </script>
     <script src="main.js"></script>
 </body>
+<script>
+    // Fungsi untuk mengambil data produk
+function fetchProducts() {
+    $.ajax({
+        url: 'admin/admin_product.php',
+        method: 'GET',
+        data: { action: 'get_products' },
+        dataType: 'json',
+        success: function(data) {
+            const productsContainer = $('#products-container');
+            productsContainer.empty(); // Hapus produk yang lama
 
+            if (data.length > 0) {
+                data.forEach(function(product) {
+                    // Menambahkan produk baru ke dalam kontainer
+                    productsContainer.append(`
+                        <form action="" class="box">
+                            <img class="image" src="admasset/${product.image_url}" alt="">
+                            <div class="name">${product.name}</div>
+                        </form>
+                    `);
+                });
+            } else {
+                productsContainer.append('<p class="empty">No products added yet!</p>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+// Panggil fungsi untuk mengambil produk saat halaman dimuat
+$(document).ready(function() {
+    fetchProducts(); // Memanggil AJAX saat halaman dimuat
+});
+
+</script>
 </html>
