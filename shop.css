@@ -1,0 +1,32 @@
+.search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-bar i {
+  font-size: 20px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.search-bar input {
+  display: none; /* Input tersembunyi di awal */
+  width: 200px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-bar input.show {
+  display: block; /* Menampilkan input */
+}
+
+.no-results {
+  color: #777;
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 18px;
+}

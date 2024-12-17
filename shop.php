@@ -62,6 +62,8 @@ if (isset($_POST['add_to_cart'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!--Link custom CSS-->
     <link rel="stylesheet" href="style.css">
+    <!--Link custom CSS-->
+    <link rel="stylesheet" href="shop.css">
     <!-- Tambahkan Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- font awesome cdn link  -->
@@ -98,24 +100,37 @@ if (isset($_POST['add_to_cart'])) {
         </ul>
         <div class="header-actions">
             <div class="header-icon">
+
                 <?php
                 $select_cart_number = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
                 $cart_rows_number = mysqli_num_rows($select_cart_number);
                 ?>
+
                 <div class="cart">
                     <i class="bx bx-cart-alt" id="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal"></i>
                     <span><?php echo $cart_rows_number; ?></span>
                 </div>
-                <i class="bx bx-search" id="search-icon"></i>
+
+                <!-- Icon Search dan Input Search -->
+                <div class="search-bar">
+                    <i class="bx bx-search" id="search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search menu..." class="form-control">
+                </div>
+
+
+                <!-- Dropdown Menu -->
                 <div class="dropdown">
                     <i class="bx bx-user" id="dropdown-toggle"></i>
                     <div class="dropdown-menu" id="dropdown-menu">
-                        <li class="dropdown-item" id="welcome">Welcome, <?php echo htmlspecialchars($user['username']); ?></li>
+                        <li class="dropdown-item" id="welcome">Welcome,
+                            <?php echo htmlspecialchars($user['username']); ?>
+                        </li>
                         <a href="profile_user/profileuser.php" class="dropdown-item">Profile User</a>
                         <li><a href="logout.php" class="dropdown-item" id="logout">Logout</a></li>
                     </div>
                 </div>
             </div>
+
 
             <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -164,40 +179,15 @@ if (isset($_POST['add_to_cart'])) {
         <!-- Filter Buttons -->
         <div class="filter-buttons">
             <div class="btn-group" role="group" aria-label="Product Filters">
-                <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Strong')">Strong</button>
+                <button type="button" class="btn btn-outline-secondary"
+                    onclick="filterProducts('Strong')">Strong</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Mild')">Mild</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Light')">Light</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts()">All</button>
             </div>
         </div>
         <div class="products-container">
-            <?php
-            $select_products = mysqli_query($conn, "SELECT * FROM `product`") or die('query failed');
-            if (mysqli_num_rows($select_products) > 0) {
-                while ($fetch_products = mysqli_fetch_assoc($select_products)) {
-                    ?>
-                    <form action="" method="post" class="box" data-category="<?php echo htmlspecialchars($fetch_products['category'], ENT_QUOTES, 'UTF-8'); ?>">
-                        <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
-                        <div class="name"><?php echo $fetch_products['name']; ?></div>
-                        <div class="price">IDR <?php echo $fetch_products['price']; ?>,00</div>
-                        <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
-                        <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
-                        <input type="hidden" name="product_image" value="<?php echo $fetch_products['image_url']; ?>">
-                        <div class="product-action">
-                            <div class="quantity-container">
-                                <button type="button" class="decrement">-</button>
-                                <input type="text" name="product_quantity" value="1" class="qty" readonly>
-                                <button type="button" class="increment">+</button>
-                            </div>
-                            <input type="submit" value="Add to cart" name="add_to_cart" class="btn">
-                        </div>
-                    </form>
-                    <?php
-                }
-            } else {
-                echo '<p class="empty">no products added yet!</p>';
-            }
-            ?>
+            <!-- Produk akan diperbarui oleh AJAX -->
         </div>
     </section>
 
@@ -266,25 +256,90 @@ if (isset($_POST['add_to_cart'])) {
         </div>
     </div>
     <script>
+        // Fungsi untuk menangani increment dan decrement quantity
         document.querySelectorAll('.quantity-container').forEach(container => {
-        const decrementBtn = container.querySelector('.decrement');
-        const incrementBtn = container.querySelector('.increment');
-        const qtyInput = container.querySelector('.qty');
+            const decrementBtn = container.querySelector('.decrement');
+            const incrementBtn = container.querySelector('.increment');
+            const qtyInput = container.querySelector('.qty');
 
-        decrementBtn.addEventListener('click', () => {
-            let currentValue = parseInt(qtyInput.value);
-            if (currentValue > 1) {
-                qtyInput.value = currentValue - 1;
-            }
+            decrementBtn.addEventListener('click', () => {
+                let currentValue = parseInt(qtyInput.value);
+                if (currentValue > 1) {
+                    qtyInput.value = currentValue - 1;
+                }
+            });
+
+            incrementBtn.addEventListener('click', () => {
+                let currentValue = parseInt(qtyInput.value);
+                qtyInput.value = currentValue + 1;
+            });
         });
 
-        incrementBtn.addEventListener('click', () => {
-            let currentValue = parseInt(qtyInput.value);
-            qtyInput.value = currentValue + 1;
+        // Fungsi untuk menampilkan/menyembunyikan search input
+        document.getElementById("search-icon").addEventListener("click", function () {
+            const searchInput = document.getElementById("search-input");
+            searchInput.classList.toggle("show");
+            searchInput.focus();
         });
-    });
+
+        // Fungsi untuk memuat produk menggunakan AJAX
+        function loadProducts(searchQuery = '') {
+            fetch('search_products.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `search=${encodeURIComponent(searchQuery)}`
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.products-container').innerHTML = data;
+
+                    // Re-attach quantity event listeners
+                    document.querySelectorAll('.quantity-container').forEach(container => {
+                        const decrementBtn = container.querySelector('.decrement');
+                        const incrementBtn = container.querySelector('.increment');
+                        const qtyInput = container.querySelector('.qty');
+
+                        decrementBtn.addEventListener('click', () => {
+                            let currentValue = parseInt(qtyInput.value);
+                            if (currentValue > 1) {
+                                qtyInput.value = currentValue - 1;
+                            }
+                        });
+
+                        incrementBtn.addEventListener('click', () => {
+                            let currentValue = parseInt(qtyInput.value);
+                            qtyInput.value = currentValue + 1;
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.querySelector('.products-container').innerHTML =
+                        '<div class="error-message">Gagal memuat produk. Silakan coba lagi.</div>';
+                });
+        }
+
+        // Memuat semua produk saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+
+            // Event listener untuk pencarian saat ikon search diklik
+            document.getElementById('search-icon').addEventListener('click', () => {
+                const searchInput = document.getElementById('search-input');
+                const searchQuery = searchInput.value.trim();
+                loadProducts(searchQuery);
+            });
+
+            // Event listener untuk pencarian saat mengetik
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const searchQuery = e.target.value.trim();
+                loadProducts(searchQuery);
+            });
+        });
     </script>
-    <script src="main.js"></script>
+    <!-- <script src="main.js"></script> -->
 </body>
 
 </html>
