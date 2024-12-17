@@ -150,8 +150,7 @@ if (isset($_POST['add_to_cart'])) {
         <!-- Filter Buttons -->
         <div class="filter-buttons">
             <div class="btn-group" role="group" aria-label="Product Filters">
-                <button type="button" class="btn btn-outline-secondary"
-                    onclick="filterProducts('Strong')">Strong</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Strong')">Strong</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Mild')">Mild</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts('Light')">Light</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts()">All</button>
@@ -163,11 +162,10 @@ if (isset($_POST['add_to_cart'])) {
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                     ?>
-                    <form action="" method="post" class="box">
+                    <form action="" method="post" class="box" data-category="<?php echo htmlspecialchars($fetch_products['category'], ENT_QUOTES, 'UTF-8'); ?>">
                         <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
                         <div class="price">IDR <?php echo $fetch_products['price']; ?>,00</div>
-                        <!-- untuk post data pada saat tombol add to cart di klik -->
                         <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
                         <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
                         <input type="hidden" name="product_image" value="<?php echo $fetch_products['image_url']; ?>">

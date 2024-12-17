@@ -6,21 +6,25 @@ const menuItems = document.querySelectorAll(".products-container .box");
 const logIn = document.querySelectorAll("header-actions .login");
 const signIn = document.querySelectorAll("header-actions .signin");
 
-// Dropdown
-document.getElementById('dropdown-toggle').addEventListener('click', function () {
-    const dropdownMenu = document.getElementById('dropdown-menu');
-    dropdownMenu.classList.toggle('active');
+
+//DROP DOWN USER
+document.addEventListener("DOMContentLoaded", function () {
+    const dropdownToggle = document.getElementById("dropdown-toggle");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+
+    dropdownToggle.addEventListener("click", function (e) {
+        e.stopPropagation(); // Mencegah event bubbling ke elemen lain
+        dropdownMenu.classList.toggle("active");
+    });
+
+    // Menutup dropdown jika klik di luar menu
+    document.addEventListener("click", function (e) {
+        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.remove("active");
+        }
+    });
 });
 
-// Close dropdown
-document.addEventListener('click', function (event) {
-    const dropdown = document.querySelector('.dropdown');
-    const dropdownMenu = document.getElementById('dropdown-menu');
-
-    if (!dropdown.contains(event.target)) {
-        dropdownMenu.classList.remove('active');
-    }
-});
 
 // SEARCH
 searchIcon.addEventListener("click", () => {
@@ -84,34 +88,20 @@ cartIcon.addEventListener('click', () => {
 
 
 //FILTER
-
-// Fungsi untuk menyaring produk berdasarkan kategori
-function filterProducts(category = '') {
+// Fungsi untuk memfilter produk berdasarkan kategori
+function filterProducts(category) {
+    // Ambil semua elemen produk di dalam container
     const products = document.querySelectorAll('.products-container .box');
-    const buttons = document.querySelectorAll('.filter-buttons .btn');
 
-    buttons.forEach(button => {
-        if (button.textContent.toLowerCase() === category || category === '') {
-            button.classList.add('active');
+    products.forEach(product => {
+        const productCategory = product.getAttribute('data-category'); // Ambil data-category
+        
+        if (!category || category === 'All' || productCategory === category) {
+            product.style.display = "block"; // Tampilkan produk
         } else {
-            button.classList.remove('active');
+            product.style.display = "none"; // Sembunyikan produk
         }
     });
-
-    // Menampilkan atau menyembunyikan produk berdasarkan kategori
-    if (category === '') {
-        products.forEach(product => {
-            product.style.display = 'block';
-        });
-    } else {
-        products.forEach(product => {
-            if (product.getAttribute('data-category') === category) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
-        });
-    }
 }
 
 // // CART 
@@ -255,32 +245,6 @@ function removeFromCart(index) {
 //     updateCartUI();
 // });
 
-
-
-// Modal Product 
-const productImages = document.querySelectorAll('.products-container .box img');
-const productModal = new bootstrap.Modal(document.getElementById('productModal'));
-const modalTitle = document.getElementById('productModalLabel');
-const modalImage = document.getElementById('modal-img');
-const modalPrice = document.getElementById('modal-price');
-const modalDescription = document.getElementById('modal-description');
-
-// Tambahkan event listener pada setiap gambar produk
-productImages.forEach((image) => {
-    image.addEventListener('click', (event) => {
-        const productBox = event.target.closest('.box');
-        const productName = productBox.getAttribute('data-name');
-        const productPrice = productBox.querySelector('.content span').innerText;
-        const productImage = productBox.querySelector('img').getAttribute('src');
-
-        modalTitle.textContent = productName;
-        modalImage.src = productImage;
-        modalPrice.textContent = productPrice;
-        modalDescription.textContent = `Discover the unique taste of ${productName}!`;
-
-        productModal.show();
-    });
-});
 
 //CUSTOMERS TESTIMONIALS
 document.getElementById('testimonialForm').addEventListener('submit', function (e) {
