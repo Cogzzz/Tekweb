@@ -112,7 +112,6 @@ if (!isset($user_id)) {
             <table class="table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
                         <th>Placed On</th>
                         <th>Name</th>
                         <th>Number</th>
@@ -131,7 +130,6 @@ if (!isset($user_id)) {
                         while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
                             ?>
                             <tr>
-                                <td><?php echo $fetch_orders['user_id']; ?></td>
                                 <td><?php echo $fetch_orders['placed_on']; ?></td>
                                 <td><?php echo $fetch_orders['name']; ?></td>
                                 <td><?php echo $fetch_orders['number']; ?></td>

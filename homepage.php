@@ -160,13 +160,19 @@ if ($user_id) {
             </div>
         </div>
         <div class="products-container">
-            <?php
+        <?php
             $select_products = mysqli_query($conn, "SELECT * FROM `product`") or die('query failed');
             if (mysqli_num_rows($select_products) > 0) {
                 while ($fetch_products = mysqli_fetch_assoc($select_products)) {
                     ?>
-                    <form action="" class="box">
-                        <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
+                   <form action="" class="box" data-category="<?php echo htmlspecialchars($fetch_products['category'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <img class="image" 
+                            src="admasset/<?php echo $fetch_products['image_url']; ?>" 
+                            alt="" 
+                            data-name="<?php echo htmlspecialchars($fetch_products['name'], ENT_QUOTES, 'UTF-8'); ?>" 
+                            data-description="<?php echo htmlspecialchars($fetch_products['description'], ENT_QUOTES, 'UTF-8'); ?>" 
+                            data-price="<?php echo $fetch_products['price']; ?>" 
+                            onclick="showProductModal(this)">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
                     </form>
                     <?php
@@ -174,8 +180,7 @@ if ($user_id) {
             } else {
                 echo '<p class="empty">no products added yet!</p>';
             }
-            ?>
-
+            ?> 
         </div>
     </section>
 

@@ -9,7 +9,21 @@ if (!isset($user_id)) {
     header('location:user/login.php');
 }
 
+// Ambil username dari database jika user_id ada
+$username = null;
+if ($user_id) {
+    $query = "SELECT * FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id); // Menggunakan prepared statement untuk keamanan
+    $stmt->execute();
+    $result = $stmt->get_result();
 
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+    } else {
+        die("query failed");
+    }
+}
 
 if (isset($_POST['add_to_cart'])) {
 
@@ -90,15 +104,15 @@ if (isset($_POST['add_to_cart'])) {
                 ?>
                 <div class="cart">
                     <i class="bx bx-cart-alt" id="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal"></i>
-                    <span>(<?php echo $cart_rows_number; ?>)</span>
+                    <span><?php echo $cart_rows_number; ?></span>
                 </div>
                 <i class="bx bx-search" id="search-icon"></i>
                 <div class="dropdown">
                     <i class="bx bx-user" id="dropdown-toggle"></i>
                     <div class="dropdown-menu" id="dropdown-menu">
+                        <li class="dropdown-item" id="welcome">Welcome, <?php echo htmlspecialchars($user['username']); ?></li>
                         <a href="profile_user/profileuser.php" class="dropdown-item">Profile User</a>
-                        <!-- <a href="history/history.html" class="dropdown-item">History Pembelian</a> -->
-                        <!-- <a href="profile_user/profile.html" class="dropdown-item">Edit Profil</a> -->
+                        <li><a href="logout.php" class="dropdown-item" id="logout">Logout</a></li>
                     </div>
                 </div>
             </div>
@@ -170,7 +184,11 @@ if (isset($_POST['add_to_cart'])) {
                         <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
                         <input type="hidden" name="product_image" value="<?php echo $fetch_products['image_url']; ?>">
                         <div class="product-action">
-                            <input type="number" min="1" name="product_quantity" value="1" class="qty">
+                            <div class="quantity-container">
+                                <button type="button" class="decrement">-</button>
+                                <input type="text" name="product_quantity" value="1" class="qty" readonly>
+                                <button type="button" class="increment">+</button>
+                            </div>
                             <input type="submit" value="Add to cart" name="add_to_cart" class="btn">
                         </div>
                     </form>
@@ -180,7 +198,6 @@ if (isset($_POST['add_to_cart'])) {
                 echo '<p class="empty">no products added yet!</p>';
             }
             ?>
-
         </div>
     </section>
 
@@ -248,6 +265,25 @@ if (isset($_POST['add_to_cart'])) {
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.quantity-container').forEach(container => {
+        const decrementBtn = container.querySelector('.decrement');
+        const incrementBtn = container.querySelector('.increment');
+        const qtyInput = container.querySelector('.qty');
+
+        decrementBtn.addEventListener('click', () => {
+            let currentValue = parseInt(qtyInput.value);
+            if (currentValue > 1) {
+                qtyInput.value = currentValue - 1;
+            }
+        });
+
+        incrementBtn.addEventListener('click', () => {
+            let currentValue = parseInt(qtyInput.value);
+            qtyInput.value = currentValue + 1;
+        });
+    });
+    </script>
     <script src="main.js"></script>
 </body>
 

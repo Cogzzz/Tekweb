@@ -246,6 +246,7 @@ function removeFromCart(index) {
 // });
 
 
+
 //CUSTOMERS TESTIMONIALS
 document.getElementById('testimonialForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -288,3 +289,22 @@ function saveToHistory(newTransaction) {
         localStorage.setItem('purchaseHistory', JSON.stringify(history));
     }
 }
+
+
+//MODAL PRODUCT
+// Fungsi untuk memfilter produk berdasarkan kategori
+function filterProducts(category) {
+    // Ambil semua elemen produk di dalam container
+    const products = document.querySelectorAll('.products-container .box');
+
+    products.forEach(product => {
+        const productCategory = product.getAttribute('data-category'); // Ambil data-category
+        
+        if (!category || category === 'All' || productCategory === category) {
+            product.style.display = "block"; // Tampilkan produk
+        } else {
+            product.style.display = "none"; // Sembunyikan produk
+        }
+    });
+}
+

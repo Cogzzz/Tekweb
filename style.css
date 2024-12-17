@@ -678,11 +678,11 @@ header.shadow {
 
 /* Gaya untuk item dropdown */
 .dropdown-menu .dropdown-item {
-  padding: 10px 15px; /* Padding untuk item */
-  color: var(--text-color, #333); /* Warna teks */
-  text-decoration: none; /* Hapus garis bawah */
-  display: block; /* Buat item menjadi blok */
-  transition: background-color 0.3s; /* Transisi warna latar belakang */
+  padding: 10px 15px; 
+  color: var(--text-color, #333); 
+  text-decoration: none; 
+  display: block; 
+  transition: background-color 0.3s; 
 }
 
 /* Efek hover untuk item dropdown */
@@ -691,19 +691,26 @@ header.shadow {
   color: var(--bg-color, #000); /* Warna teks saat hover */
 }
 
-/* Gaya untuk tombol logout */
-.dropdown-menu .dropdown-item .logout {
-  color: #fff; /* Warna teks putih */
-  background-color: #e74c3c; /* Warna merah */
-  text-align: center;
-  border-radius: 5px;
-  font-weight: bold;
+.dropdown-item[href*="profileuser.php"] {
+  background-color: #fff; /* Warna background putih */
+  color: #333; /* Warna teks */
+  border-radius: 5px; /* Rounded */
 }
 
-/* Efek hover tombol logout */
-.dropdown-menu .dropdown-item .logout:hover {
-  background-color: #c0392b; /* Warna merah lebih gelap saat hover */
-  color: #fff; /* Warna teks tetap putih */
+.dropdown-item[href*="profileuser.php"]:hover {
+  background-color: var(--second-color); /* Warna hover abu-abu terang */
+}
+
+#logout {
+  color: #fff; /* Warna teks putih */
+  background-color: #e74c3c; /* Warna merah */
+  font-weight: bold;
+  border-radius: 5px; /* Membuat sedikit rounded */
+  text-align: center;
+}
+
+#logout:hover {
+  background-color: #c0392b; /* Warna merah lebih gelap saat dihover */
 }
 
 
@@ -781,5 +788,38 @@ header.shadow {
 }
 
 .table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Style untuuk Shop button +/- */
+.quantity-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.quantity-container button {
+  border: none;
+  background-color: #bc9967; 
+  color: white; 
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 13px;
+  transition: background-color 0.3s; 
+}
+
+.quantity-container button:hover {
+  background-color: var(--second-color); 
+}
+
+.qty {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  border-radius: 8px; 
+  pointer-events: none; 
   background-color: #f9f9f9;
 }
