@@ -659,14 +659,6 @@ header.shadow {
   display: inline-block;
 }
 
-/* Ikon pengguna */
-#dropdown-toggle {
-  font-size: 24px; 
-  cursor: pointer; 
-  color: var(--bg-color, #000); /* Default hitam */
-  transition: color 0.3s; 
-}
-
 /* Gaya untuk menu dropdown */
 .dropdown-menu {
   display: none;
@@ -674,9 +666,10 @@ header.shadow {
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  padding: 10px;
   border-radius: 5px;
   z-index: 1000;
+  right: 0px;  
+  top: 100%; 
 }
 
 .dropdown-menu.active {
@@ -684,7 +677,7 @@ header.shadow {
 }
 
 /* Gaya untuk item dropdown */
-.dropdown-item {
+.dropdown-menu .dropdown-item {
   padding: 10px 15px; /* Padding untuk item */
   color: var(--text-color, #333); /* Warna teks */
   text-decoration: none; /* Hapus garis bawah */
@@ -693,13 +686,13 @@ header.shadow {
 }
 
 /* Efek hover untuk item dropdown */
-.dropdown-item:hover {
+.dropdown-menu .dropdown-item:hover {
   background-color: var(--main-color, #f0f0f0); /* Warna latar belakang saat hover */
   color: var(--bg-color, #000); /* Warna teks saat hover */
 }
 
 /* Gaya untuk tombol logout */
-.dropdown-item.logout {
+.dropdown-menu .dropdown-item .logout {
   color: #fff; /* Warna teks putih */
   background-color: #e74c3c; /* Warna merah */
   text-align: center;
@@ -708,7 +701,7 @@ header.shadow {
 }
 
 /* Efek hover tombol logout */
-.dropdown-item.logout:hover {
+.dropdown-menu .dropdown-item .logout:hover {
   background-color: #c0392b; /* Warna merah lebih gelap saat hover */
   color: #fff; /* Warna teks tetap putih */
 }
