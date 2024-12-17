@@ -9,7 +9,24 @@ $admin_id = $_SESSION['admin_id'];
 if (!isset($admin_id)) {
     header('location:../user/login.php');
 }
-;
+
+// Handle AJAX request to fetch products
+if (isset($_GET['action']) && $_GET['action'] === 'get_products') {
+    header('Content-Type: application/json');
+
+    $query = "SELECT * FROM `product`";
+    $result = mysqli_query($conn, $query);
+
+    $products = [];
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+    }
+
+    echo json_encode($products);
+    exit; // Prevent further execution of the script
+}
 
 if (isset($_POST['add_product'])) {
 
@@ -23,7 +40,9 @@ if (isset($_POST['add_product'])) {
     $select_product_name = mysqli_query($conn, "SELECT name FROM `product` WHERE name = '$name'") or die('query failed');
 
     if (mysqli_num_rows($select_product_name) > 0) {
-        $alert_message[] = 'product name already added';
+        //update
+        echo json_encode(['status' => 'error', 'message' => 'Product already exists']);
+        exit;
     } else {
         $add_product_query = mysqli_query($conn, "INSERT INTO `product`(name, price, image_url) VALUES('$name', '$price', '$image')") or die('query failed');
 
@@ -32,10 +51,22 @@ if (isset($_POST['add_product'])) {
                 $alert_message[] = 'image size is too large';
             } else {
                 move_uploaded_file($image_tmp_name, $image_folder);
-                $alert_message[] = 'product added successfully!';
+                // Return the updated product list in JSON format (update ajax)
+                $query = "SELECT * FROM `product`";
+                $result = mysqli_query($conn, $query);
+
+                $products = [];
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $products[] = $row;
+                }
+
+                echo json_encode($products);
+                exit;
             }
         } else {
-            $alert_message[] = 'product could not be added!';
+            //update
+            echo json_encode(['status' => 'error', 'message' => 'Failed to add product']);
+            exit;
         }
     }
 }
@@ -133,7 +164,8 @@ if (isset($_POST['update_product'])) {
                         <img src="../admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
                         <div class="name"><?php echo $fetch_products['name']; ?></div>
                         <div class="price">IDR <?php echo $fetch_products['price']; ?>,00</div>
-                        <a href="admin_product.php?update=<?php echo $fetch_products['product_id']; ?>" class="option-btn">update</a>
+                        <a href="admin_product.php?update=<?php echo $fetch_products['product_id']; ?>"
+                            class="option-btn">update</a>
                         <a href="admin_product.php?delete=<?php echo $fetch_products['product_id']; ?>" class="delete-btn"
                             onclick="return confirm('delete this product?');">delete</a>
                     </div>

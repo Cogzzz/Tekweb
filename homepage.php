@@ -38,6 +38,8 @@ if ($user_id) {
     <link rel="stylesheet" href="style.css">
     <!-- Tambahkan Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 
@@ -180,23 +182,8 @@ if ($user_id) {
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts()">All</button>
             </div>
         </div>
-        <div class="products-container">
-            <?php
-            $select_products = mysqli_query($conn, "SELECT * FROM `product`") or die('query failed');
-            if (mysqli_num_rows($select_products) > 0) {
-                while ($fetch_products = mysqli_fetch_assoc($select_products)) {
-                    ?>
-                    <form action="" class="box">
-                        <img class="image" src="admasset/<?php echo $fetch_products['image_url']; ?>" alt="">
-                        <div class="name"><?php echo $fetch_products['name']; ?></div>
-                    </form>
-                    <?php
-                }
-            } else {
-                echo '<p class="empty">no products added yet!</p>';
-            }
-            ?>
-
+        <div class="products-container" id="products-container">
+            <!-- Produk akan dimuat melalui AJAX -->
         </div>
 
 
@@ -326,5 +313,42 @@ if ($user_id) {
     </div>
     <script src="main.js"></script>
 </body>
+<script>
+    // Fungsi untuk mengambil data produk
+function fetchProducts() {
+    $.ajax({
+        url: 'admin/admin_product.php',
+        method: 'GET',
+        data: { action: 'get_products' },
+        dataType: 'json',
+        success: function(data) {
+            const productsContainer = $('#products-container');
+            productsContainer.empty(); // Hapus produk yang lama
 
+            if (data.length > 0) {
+                data.forEach(function(product) {
+                    // Menambahkan produk baru ke dalam kontainer
+                    productsContainer.append(`
+                        <form action="" class="box">
+                            <img class="image" src="admasset/${product.image_url}" alt="">
+                            <div class="name">${product.name}</div>
+                        </form>
+                    `);
+                });
+            } else {
+                productsContainer.append('<p class="empty">No products added yet!</p>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+// Panggil fungsi untuk mengambil produk saat halaman dimuat
+$(document).ready(function() {
+    fetchProducts(); // Memanggil AJAX saat halaman dimuat
+});
+
+</script>
 </html>

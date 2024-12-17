@@ -61,13 +61,16 @@ window.addEventListener("scroll", () => {
     header.classList.toggle("shadow", window.scrollY > 0)
 });
 
-window.onscroll = () => {
-    if(window.scrollY > 60){
-        document.querySelector('.header').classList.add('active');
-    }else{
-        document.querySelector('.header').classList.remove('active');
-    }
-}
+document.addEventListener('DOMContentLoaded', () => {
+    window.onscroll = () => {
+        if (window.scrollY > 60) {
+            document.querySelector('.header').classList.add('active');
+        } else {
+            document.querySelector('.header').classList.remove('active');
+        }
+    };
+});
+
 
 // Get the cart modal and cart icon
 
