@@ -179,37 +179,44 @@ header.shadow {
   display: none;
 }
 
+/* Mengatur form agar tidak merusak tata letak */
 .search-box {
-  position: absolute;
-  top: 15%;
-  right: 50px;
-  display: none; /* Awalnya tersembunyi */
-  background: var(--bg-color);
-  padding: 10px;
-  box-shadow: var(--box-shadow);
-  border-radius: 5px;
+  position: relative;
+  display: inline-block; /* Agar tidak memakan seluruh lebar halaman */
 }
 
-.search-box.active {
-  top: 100%;
-  box-shadow: var(--box-shadow);
-  transition: 0.5s all linear;
+.search-box form {
+  position: absolute;
+  top: 50%; /* Menempatkan form sejajar dengan ikon */
+  right: 0;
+  transform: translateY(-50%); /* Menengahkan secara vertikal */
+  display: flex; /* Form dan input akan tampil horizontal */
+  align-items: center;
 }
 
 .search-box input {
-  width: 400px;
-  padding: 8px 10px;
+  width: 0;
+  padding: 8px;
   border: none;
-  font-size: 1rem;
-  border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
-  color: var(--main-color);
+  opacity: 0;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.search-box input::placeholder {
-  font-size: 1rem;
-  font-weight: 500;
+.search-box.active input {
+  width: 200px; /* Lebar form input saat aktif */
+  opacity: 1;
+  border: 1px solid #ccc;
+  margin-left: 5px; /* Memberikan jarak antara ikon dan input */
+}
+
+.search-box i {
+  cursor: pointer;
+  font-size: 1.5rem;
+  z-index: 11;
 }
 
 /* Tambahan untuk Total Pembelanjaan */

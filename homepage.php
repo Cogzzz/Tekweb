@@ -110,7 +110,10 @@ if ($user_id) {
                 </div>
             </div>
             <div class="search-box">
-                <input type="search" id="" placeholder="What Coffee Do You Want ?">
+                <form action="" method="GET">
+                    <input type="search" name="query" placeholder="What Coffee Do You Want.." required>
+                    <button type="submit">Search</button>
+                </form>
             </div>
         </div>
     </header>
@@ -159,7 +162,7 @@ if ($user_id) {
                 <button type="button" class="btn btn-outline-secondary" onclick="filterProducts()">All</button>
             </div>
         </div>
-        <div class="products-container">
+        <div class="products-container" id="products-section">
         <?php
             $select_products = mysqli_query($conn, "SELECT * FROM `product`") or die('query failed');
             if (mysqli_num_rows($select_products) > 0) {
@@ -189,8 +192,7 @@ if ($user_id) {
             <h2>Customers Testimonials</h2>
         </div>
 
-        <div class="customers-container d-flex overflow ```html
--auto" style="gap: 1rem; white-space: nowrap;">
+        <div class="customers-container d-flex overflow ```html -auto" style="gap: 1rem; white-space: nowrap;">
             <!-- Contoh Testimoni -->
             <div class="box d-inline-block" style="min-width: 300px;">
                 <div class="stars">
@@ -326,44 +328,65 @@ if ($user_id) {
             productModal.show();
         }
     </script>
-    <script src="main.js"></script>
-</body>
-<script>
-    // Fungsi untuk mengambil data produk
-function fetchProducts() {
-    $.ajax({
-        url: 'admin/admin_product.php',
-        method: 'GET',
-        data: { action: 'get_products' },
-        dataType: 'json',
-        success: function(data) {
-            const productsContainer = $('#products-container');
-            productsContainer.empty(); // Hapus produk yang lama
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('query');
 
-            if (data.length > 0) {
-                data.forEach(function(product) {
-                    // Menambahkan produk baru ke dalam kontainer
-                    productsContainer.append(`
-                        <form action="" class="box">
-                            <img class="image" src="admasset/${product.image_url}" alt="">
-                            <div class="name">${product.name}</div>
-                        </form>
-                    `);
-                });
+        if (query) {
+            const products = document.querySelectorAll('.box');
+            let found = false;
+
+            products.forEach(product => {
+                const nameElement = product.querySelector('.name');
+                if (nameElement && nameElement.textContent.toLowerCase().includes(query.toLowerCase())) {
+                    found = true;
+                    console.log('Product found:', nameElement.textContent); // Debugging
+                }
+            });
+
+            if (found) {
+                document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
             } else {
-                productsContainer.append('<p class="empty">No products added yet!</p>');
+                alert('Product not found!');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
         }
     });
-}
+    </script>
+    <script>
+        function fetchProducts() {
+            $.ajax({
+                url: 'admin/admin_product.php',
+                method: 'GET',
+                data: { action: 'get_products' },
+                dataType: 'json',
+                success: function(data) {
+                    const productsContainer = $('#products-container');
+                    productsContainer.empty(); // Hapus produk yang lama
 
-// Panggil fungsi untuk mengambil produk saat halaman dimuat
-$(document).ready(function() {
-    fetchProducts(); // Memanggil AJAX saat halaman dimuat
-});
-
-</script>
+                    if (data.length > 0) {
+                        data.forEach(function(product) {
+                            productsContainer.append(`
+                                <form action="" class="box">
+                                    <img class="image" src="admasset/${product.image_url}" alt="">
+                                    <div class="name">${product.name}</div>
+                                </form>
+                            `);
+                        });
+                    } else {
+                        productsContainer.append('<p class="empty">No products added yet!</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+        // Panggil fungsi untuk mengambil produk saat halaman dimuat
+        $(document).ready(function() {
+            fetchProducts(); // Memanggil AJAX saat halaman dimuat
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
 </html>

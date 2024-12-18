@@ -153,6 +153,13 @@ if (isset($_POST['add_to_cart'])) {
     </header>
     <!--HEADER END-->
 
+    <div class="search-box">
+        <form action="" method="GET">
+                <input type="search" name="query" placeholder="What Coffee Do You Want.." required>
+                <button type="submit">Search</button>
+        </form>
+    </div>
+
 
     <!-- CONTENT START -->
 
@@ -369,6 +376,32 @@ if (isset($_POST['add_to_cart'])) {
             });
         });
     </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('query');
+
+        if (query) {
+            const products = document.querySelectorAll('.box');
+            let found = false;
+
+            products.forEach(product => {
+                const nameElement = product.querySelector('.name');
+                if (nameElement && nameElement.textContent.toLowerCase().includes(query.toLowerCase())) {
+                    found = true;
+                    console.log('Product found:', nameElement.textContent); // Debugging
+                }
+            });
+
+            if (found) {
+                document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Product not found!');
+            }
+        }
+    });
+    </script>
     <script src="main.js"></script>
 </body>
 
