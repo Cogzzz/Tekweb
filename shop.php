@@ -284,6 +284,91 @@ if (isset($_POST['add_to_cart'])) {
         });
     });
     </script>
+
+        <script>
+        // Fungsi untuk menangani increment dan decrement quantity
+        document.querySelectorAll('.quantity-container').forEach(container => {
+            const decrementBtn = container.querySelector('.decrement');
+            const incrementBtn = container.querySelector('.increment');
+            const qtyInput = container.querySelector('.qty');
+
+            decrementBtn.addEventListener('click', () => {
+                let currentValue = parseInt(qtyInput.value);
+                if (currentValue > 1) {
+                    qtyInput.value = currentValue - 1;
+                }
+            });
+
+            incrementBtn.addEventListener('click', () => {
+                let currentValue = parseInt(qtyInput.value);
+                qtyInput.value = currentValue + 1;
+            });
+        });
+
+        // Fungsi untuk menampilkan/menyembunyikan search input
+        document.getElementById("search-icon").addEventListener("click", function () {
+            const searchInput = document.getElementById("search-input");
+            searchInput.classList.toggle("show");
+            searchInput.focus();
+        });
+
+        // Fungsi untuk memuat produk menggunakan AJAX
+        function loadProducts(searchQuery = '') {
+            fetch('search_products.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: search=${encodeURIComponent(searchQuery)}
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.products-container').innerHTML = data;
+
+                    // Re-attach quantity event listeners
+                    document.querySelectorAll('.quantity-container').forEach(container => {
+                        const decrementBtn = container.querySelector('.decrement');
+                        const incrementBtn = container.querySelector('.increment');
+                        const qtyInput = container.querySelector('.qty');
+
+                        decrementBtn.addEventListener('click', () => {
+                            let currentValue = parseInt(qtyInput.value);
+                            if (currentValue > 1) {
+                                qtyInput.value = currentValue - 1;
+                            }
+                        });
+
+                        incrementBtn.addEventListener('click', () => {
+                            let currentValue = parseInt(qtyInput.value);
+                            qtyInput.value = currentValue + 1;
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.querySelector('.products-container').innerHTML =
+                        '<div class="error-message">Gagal memuat produk. Silakan coba lagi.</div>';
+                });
+        }
+
+        // Memuat semua produk saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+
+            // Event listener untuk pencarian saat ikon search diklik
+            document.getElementById('search-icon').addEventListener('click', () => {
+                const searchInput = document.getElementById('search-input');
+                const searchQuery = searchInput.value.trim();
+                loadProducts(searchQuery);
+            });
+
+            // Event listener untuk pencarian saat mengetik
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const searchQuery = e.target.value.trim();
+                loadProducts(searchQuery);
+            });
+        });
+    </script>
     <script src="main.js"></script>
 </body>
 
